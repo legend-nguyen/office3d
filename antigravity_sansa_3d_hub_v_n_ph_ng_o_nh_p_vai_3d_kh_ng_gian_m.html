@@ -1,0 +1,2401 @@
+<!DOCTYPE html>
+<html class="dark" lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Antigravity SANSA 3D HUB — Văn Phòng Ảo Nhập Vai 3D Không Gian Mở</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "outline-variant": "#3d494c",
+            "tertiary": "#d0bcff",
+            "on-primary-container": "#00424f",
+            "on-secondary": "#003824",
+            "surface-bright": "#31394d",
+            "on-tertiary-fixed-variant": "#5516be",
+            "on-tertiary": "#3c0091",
+            "surface-variant": "#2d3449",
+            "secondary-container": "#00a572",
+            "on-surface-variant": "#bcc9cd",
+            "on-surface": "#dae2fd",
+            "background": "#0b1326",
+            "surface": "#0b1326",
+            "on-tertiary-fixed": "#23005c",
+            "on-primary": "#003640",
+            "secondary-fixed-dim": "#4edea3",
+            "error": "#ffb4ab",
+            "surface-container": "#171f33",
+            "on-secondary-fixed-variant": "#005236",
+            "on-primary-fixed": "#001f26",
+            "tertiary-fixed": "#e9ddff",
+            "secondary-fixed": "#6ffbbe",
+            "surface-container-low": "#131b2e",
+            "inverse-on-surface": "#283044",
+            "surface-container-high": "#222a3d",
+            "surface-container-highest": "#2d3449",
+            "surface-dim": "#0b1326",
+            "on-tertiary-container": "#4900ae",
+            "inverse-surface": "#dae2fd",
+            "on-error-container": "#ffdad6",
+            "error-container": "#93000a",
+            "primary-container": "#06b6d4",
+            "secondary": "#4edea3",
+            "surface-tint": "#4cd7f6",
+            "on-primary-fixed-variant": "#004e5c",
+            "on-secondary-fixed": "#002113",
+            "tertiary-container": "#b395ff",
+            "primary-fixed-dim": "#4cd7f6",
+            "inverse-primary": "#00687a",
+            "primary-fixed": "#acedff",
+            "on-secondary-container": "#00311f",
+            "primary": "#4cd7f6",
+            "outline": "#869397",
+            "on-background": "#dae2fd",
+            "tertiary-fixed-dim": "#d0bcff",
+            "on-error": "#690005",
+            "surface-container-lowest": "#060e20"
+          },
+          spacing: {
+            "space-md": "0.75rem",
+            "space-sm": "0.5rem",
+            "gutter": "1rem",
+            "space-xl": "2rem",
+            "space-lg": "1.25rem",
+            "space-xs": "0.25rem",
+            "margin": "1.5rem"
+          },
+          fontFamily: {
+            "body-md": ["Inter", "sans-serif"],
+            "shortcut-key": ["JetBrains Mono", "monospace"],
+            "headline-md": ["Inter", "sans-serif"],
+            "data-mono-md": ["JetBrains Mono", "monospace"],
+            "headline-sm": ["Inter", "sans-serif"],
+            "data-mono-lg": ["JetBrains Mono", "monospace"],
+            "data-mono-sm": ["JetBrains Mono", "monospace"],
+            "display-lg": ["Inter", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"]
+          },
+          fontSize: {
+            "body-md": ["13px", { lineHeight: "20px", fontWeight: "400" }],
+            "shortcut-key": ["10px", { lineHeight: "12px", letterSpacing: "0.08em", fontWeight: "700" }],
+            "headline-md": ["24px", { lineHeight: "32px", letterSpacing: "-0.015em", fontWeight: "600" }],
+            "data-mono-md": ["12px", { lineHeight: "16px", letterSpacing: "0em", fontWeight: "500" }],
+            "headline-sm": ["18px", { lineHeight: "26px", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "data-mono-lg": ["14px", { lineHeight: "20px", letterSpacing: "-0.01em", fontWeight: "500" }],
+            "data-mono-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.04em", fontWeight: "600" }],
+            "display-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "body-lg": ["15px", { lineHeight: "24px", fontWeight: "400" }]
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overscroll-behavior: none;
+      background-color: #060e20;
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      user-select: none;
+    }
+    @keyframes radarSweep {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .radar-sweep {
+      animation: radarSweep 3.5s linear infinite;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md select-none overflow-hidden">
+
+  <!-- TOP HEADER BAR -->
+  <header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/85 backdrop-blur-xl border-b border-surface-container/60 shadow-[0_4px_24px_rgba(2,6,23,0.6)]">
+    <div class="h-16 w-full px-margin flex items-center justify-between gap-gutter">
+      <!-- Brand + Nav Tabs -->
+      <div class="flex items-center gap-space-md">
+        <div class="w-9 h-9 rounded bg-surface-container-high flex items-center justify-center text-primary shadow-[0_0_12px_rgba(6,182,212,0.35)] border border-primary/30">
+          <span class="material-symbols-outlined text-[20px]">view_in_ar</span>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-center gap-space-xs">
+            <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight font-semibold">Antigravity</span>
+            <span class="font-data-mono-sm text-data-mono-sm text-primary uppercase px-space-xs py-[1px] bg-surface-container-high rounded border border-primary/20">SANSA 3D HUB</span>
+          </div>
+          <span class="font-data-mono-sm text-data-mono-sm text-on-surface-variant hidden sm:inline">Phòng làm việc 3D Không gian mở • Tự do sắp xếp chỗ ngồi</span>
+        </div>
+
+        <nav class="hidden xl:flex items-center gap-space-xs ml-space-md">
+          <button id="tab-world" type="button" class="px-space-sm py-space-xs transition-colors bg-surface-container-high text-primary font-semibold rounded flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+            <span>World</span>
+          </button>
+          <button id="tab-zones" type="button" class="px-space-sm py-space-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors rounded">
+            Zones
+          </button>
+          <button id="tab-roster" type="button" class="px-space-sm py-space-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors rounded">
+            Roster
+          </button>
+          <button id="tab-settings" type="button" class="px-space-sm py-space-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors rounded">
+            Settings
+          </button>
+        </nav>
+      </div>
+
+      <!-- Center Telemetry & Audio Pill -->
+      <div class="hidden md:flex items-center gap-space-md bg-surface-container-low/90 backdrop-blur-md px-space-md py-space-xs rounded-lg border border-outline-variant/30">
+        <div class="flex items-center gap-space-xs">
+          <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+          <span id="online-count-badge" class="font-data-mono-md text-data-mono-md text-secondary font-medium">1/20 Online</span>
+        </div>
+        <span class="text-outline-variant font-data-mono-sm text-data-mono-sm">•</span>
+        <span id="floor-status-label" class="font-data-mono-sm text-data-mono-sm text-on-surface-variant truncate max-w-[220px]">Sàn Trống Tự Do • Không Phân Quyền</span>
+        <div class="flex items-center gap-space-xs ml-space-xs">
+          <button id="btn-mic-toggle" class="w-7 h-7 rounded bg-surface-container hover:bg-surface-container-high text-secondary flex items-center justify-center transition-colors" title="Bật/Tắt Microphone" type="button">
+            <span id="icon-mic" class="material-symbols-outlined text-[16px]">mic</span>
+          </button>
+          <button id="btn-audio-toggle" class="w-7 h-7 rounded bg-surface-container hover:bg-surface-container-high text-primary flex items-center justify-center transition-colors" title="Âm thanh không gian (Spatial Audio)" type="button">
+            <span id="icon-audio" class="material-symbols-outlined text-[16px]">volume_up</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Controls: Camera Mode, Radar, Profile, Keybinds -->
+      <div class="flex items-center gap-space-sm">
+        <div class="hidden lg:flex items-center p-[2px] bg-surface-container-low rounded-lg border border-outline-variant/20">
+          <button class="px-space-sm py-1 rounded bg-primary-container text-on-primary-container font-data-mono-sm text-data-mono-sm font-semibold flex items-center gap-space-xs shadow" id="nav-btn-3rd" type="button">
+            <span class="material-symbols-outlined text-[14px]">videocam</span>
+            <span>3RD RPG</span>
+          </button>
+          <button class="px-space-sm py-1 rounded text-on-surface-variant hover:text-on-surface font-data-mono-sm text-data-mono-sm flex items-center gap-space-xs transition-colors" id="nav-btn-1st" type="button">
+            <span class="material-symbols-outlined text-[14px]">visibility</span>
+            <span>1ST POV</span>
+            <span class="bg-surface-container px-[3px] py-[1px] rounded font-shortcut-key text-shortcut-key text-on-surface-variant">[V]</span>
+          </button>
+        </div>
+
+        <button class="w-8 h-8 rounded bg-surface-container-low hover:bg-surface-container-high text-primary flex items-center justify-center transition-colors border border-outline-variant/20" id="btn-toggle-radar" title="Ẩn/Hiện Radar Sàn 3D" type="button">
+          <span class="material-symbols-outlined text-[18px]">radar</span>
+        </button>
+
+        <!-- Player Profile & My Screen Share Trigger -->
+        <button id="btn-my-profile" type="button" class="flex items-center gap-space-xs bg-surface-container-low hover:bg-surface-container p-space-xs pr-space-sm rounded-lg border border-outline-variant/20 transition-colors" title="Cấu hình nhân vật & Chia sẻ màn hình của bạn">
+          <div class="relative">
+            <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+              <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+            </div>
+            <span id="my-live-badge" class="absolute -bottom-1 -right-1 bg-surface-container-highest text-on-surface-variant font-shortcut-key text-shortcut-key px-[3px] py-[1px] rounded font-bold uppercase leading-none border border-outline-variant/40">IDLE</span>
+          </div>
+          <div class="hidden xl:flex flex-col text-left">
+            <span id="my-name-display" class="font-body-md text-body-md text-on-surface font-semibold leading-tight">Tuấn Anh</span>
+            <span id="my-state-display" class="font-data-mono-sm text-data-mono-sm text-on-surface-variant leading-tight">Đang đi bộ</span>
+          </div>
+        </button>
+
+        <button id="btn-keybinds" class="w-8 h-8 rounded bg-surface-container-low hover:bg-surface-container-high text-primary flex items-center justify-center transition-colors border border-outline-variant/20" title="Hướng dẫn phím tắt [WASD / B / R / E / V]" type="button">
+          <span class="material-symbols-outlined text-[18px]">keyboard</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN 3D VIEWPORT & HUD OVERLAYS -->
+  <main class="w-full pt-16 bg-surface h-screen relative overflow-hidden select-none">
+    <div class="flex flex-col w-full h-[calc(100vh-4rem)] relative">
+
+      <!-- 1. REALTIME THREE.JS WEBGL SPATIAL CANVAS -->
+      <div id="webgl-canvas-wrapper" class="absolute inset-0 w-full h-full bg-transparent z-0 cursor-grab active:cursor-grabbing">
+        <div id="threejs-container" class="w-full h-full"></div>
+      </div>
+
+      <!-- Atmospheric Vignette & Temple Ambient Lighting Glow -->
+      <div class="absolute inset-0 pointer-events-none z-10 bg-[radial-gradient(circle_at_50%_45%,transparent_45%,rgba(6,14,32,0.55)_85%,rgba(6,14,32,0.92)_100%)]"></div>
+
+      <!-- 1ST-PERSON POV DESK HUD OVERLAY (Shown when seated in 1st-Person POV) -->
+      <div id="pov-desk-hud" class="hidden absolute inset-x-0 top-4 flex justify-center z-20 pointer-events-none">
+        <div class="bg-surface-container-lowest/90 backdrop-blur-xl border border-primary/40 px-4 py-1.5 rounded-full shadow-[0_0_24px_rgba(6,182,212,0.25)] flex items-center gap-3 pointer-events-auto">
+          <span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+          <span class="font-data-mono-sm text-xs text-on-surface">GÓC NHÌN THỨ NHẤT (1ST-PERSON POV) • Kéo chuột để nhìn quanh văn phòng</span>
+          <button id="btn-exit-pov" type="button" class="px-2 py-0.5 rounded bg-surface-container-high hover:bg-surface-bright text-primary font-shortcut-key text-[10px] border border-primary/30">
+            Thoát POV [V]
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. DYNAMIC 3D WORLD-SPACE BILLBOARD TAGS CONTAINER -->
+      <div id="world-labels-container" class="absolute inset-0 pointer-events-none z-20 overflow-hidden"></div>
+
+      <!-- 3. TOP-LEFT HUD: Camera Perspective Mode, Telemetry & Active Seat Actions -->
+      <div class="absolute top-margin left-margin z-30 flex flex-col gap-space-sm pointer-events-auto max-w-[92vw]">
+        <!-- Camera Pill + Seat Action Button -->
+        <div class="flex flex-wrap items-center gap-2">
+          <div class="bg-surface-container-lowest/90 backdrop-blur-2xl p-1 rounded-xl shadow-[0_8px_32px_rgba(2,6,23,0.8)] border border-outline-variant/30 flex items-center gap-1">
+            <button class="px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container font-data-mono-sm text-data-mono-sm font-bold flex items-center gap-1.5 shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all" id="btn-cam-3rd" type="button">
+              <span class="material-symbols-outlined text-[16px]">videocam</span>
+              <span>3rd-Person RPG Orbit</span>
+              <span class="bg-on-primary-container/20 px-1 py-0.5 rounded font-shortcut-key text-shortcut-key text-on-primary-container">[V]</span>
+            </button>
+            <button class="px-space-md py-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-data-mono-sm text-data-mono-sm font-medium flex items-center gap-1.5 transition-colors" id="btn-cam-1st" type="button">
+              <span class="material-symbols-outlined text-[16px]">visibility</span>
+              <span>1st-Person POV</span>
+            </button>
+          </div>
+
+          <!-- Contextual Sit / Stand / Share Screen Button -->
+          <button id="btn-seat-action" type="button" class="bg-surface-container-lowest/90 hover:bg-surface-container-high backdrop-blur-2xl px-3.5 py-2 rounded-xl border border-secondary/40 text-secondary font-data-mono-sm text-xs font-bold flex items-center gap-1.5 shadow-[0_0_20px_rgba(78,222,163,0.2)] transition-all">
+            <span class="material-symbols-outlined text-[16px]">chair</span>
+            <span id="btn-seat-action-text">Ngồi bàn gần nhất [E]</span>
+          </button>
+
+          <button id="btn-share-my-screen" type="button" class="bg-surface-container-lowest/90 hover:bg-surface-container-high backdrop-blur-2xl px-3.5 py-2 rounded-xl border border-primary/40 text-primary font-data-mono-sm text-xs font-bold flex items-center gap-1.5 shadow-[0_0_20px_rgba(6,182,212,0.2)] transition-all">
+            <span class="material-symbols-outlined text-[16px]">screen_share</span>
+            <span id="btn-share-my-screen-text">Phát Màn Hình (View-Only)</span>
+          </button>
+        </div>
+
+        <!-- Realtime Status Telemetry Stream -->
+        <div class="bg-surface-container-lowest/85 backdrop-blur-xl px-space-md py-space-xs rounded-xl shadow-lg border border-outline-variant/20 flex flex-wrap items-center gap-space-md text-on-surface-variant font-data-mono-sm text-data-mono-sm w-fit">
+          <div class="flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+            <span id="fps-readout" class="text-secondary font-semibold">60 FPS</span>
+          </div>
+          <span class="text-outline-variant">•</span>
+          <div class="flex items-center gap-1">
+            <span class="text-on-surface font-mono" id="pos-readout">POS [X: 0.0, Y: 0.0, Z: 2.0]</span>
+          </div>
+          <span class="text-outline-variant">•</span>
+          <div class="flex items-center gap-1">
+            <span id="desk-count-readout" class="text-primary font-semibold">0 Trạm đã đặt</span>
+          </div>
+          <span class="text-outline-variant hidden sm:inline">•</span>
+          <div class="hidden sm:flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px] text-amber-300">wb_twilight</span>
+            <span class="text-amber-200/90">Sansa Open Floor</span>
+          </div>
+        </div>
+
+        <!-- Movement & Placement Ribbon Help -->
+        <div class="bg-surface-container-lowest/75 backdrop-blur-md px-3 py-1.5 rounded-lg border border-outline-variant/15 flex flex-wrap items-center gap-2.5 text-[11px] text-on-surface-variant font-data-mono-sm w-fit">
+          <div class="flex items-center gap-1">
+            <span class="bg-surface-container-high px-1.5 py-0.5 rounded text-primary font-shortcut-key text-[10px]">[WASD / Click Sàn]</span>
+            <span>Di chuyển 3D</span>
+          </div>
+          <span class="text-outline-variant">•</span>
+          <div class="flex items-center gap-1">
+            <span class="bg-surface-container-high px-1.5 py-0.5 rounded text-secondary font-shortcut-key text-[10px]">[1-6 + Click]</span>
+            <span>Tự đặt Bàn Ghế PC</span>
+          </div>
+          <span class="text-outline-variant">•</span>
+          <div class="flex items-center gap-1">
+            <span class="bg-surface-container-high px-1.5 py-0.5 rounded text-tertiary font-shortcut-key text-[10px]">[R]</span>
+            <span id="rotation-indicator">Xoay đồ (0°)</span>
+          </div>
+          <span class="text-outline-variant">•</span>
+          <div class="flex items-center gap-1">
+            <span class="bg-surface-container-high px-1.5 py-0.5 rounded text-amber-300 font-shortcut-key text-[10px]">[E / Click Ghế]</span>
+            <span>Ngồi làm việc</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. TOP-RIGHT HUD: Minimap Radar & Colleague Spawner Actions -->
+      <div class="absolute top-margin right-margin z-30 flex flex-col items-end gap-space-sm pointer-events-auto" id="radar-container">
+        <div class="w-[215px] bg-surface-container-lowest/90 backdrop-blur-2xl p-space-sm rounded-xl shadow-[0_12px_36px_rgba(2,6,23,0.85)] border border-outline-variant/30">
+          <!-- Radar Header -->
+          <div class="flex items-center justify-between pb-space-xs mb-space-xs border-b border-surface-container/60">
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-primary text-[15px]">radar</span>
+              <span class="font-data-mono-sm text-data-mono-sm text-on-surface font-semibold uppercase tracking-wider">RADAR SÀN 3D</span>
+            </div>
+            <span class="font-data-mono-sm text-data-mono-sm text-secondary font-bold">12ms</span>
+          </div>
+          <!-- Circular Radar Canvas Display -->
+          <div id="radar-map-box" class="relative w-full h-[140px] bg-surface-container-high/90 rounded-lg overflow-hidden flex items-center justify-center border border-primary/20">
+            <!-- Conic Sweep Animation -->
+            <div class="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,rgba(6,182,212,0.32)_0deg,transparent_65deg)] radar-sweep pointer-events-none"></div>
+            <!-- Range Rings -->
+            <div class="absolute w-28 h-28 rounded-full border border-primary/25 pointer-events-none"></div>
+            <div class="absolute w-16 h-16 rounded-full border border-primary/20 pointer-events-none"></div>
+            <div class="absolute w-full h-[1px] bg-outline-variant/20 pointer-events-none"></div>
+            <div class="absolute h-full w-[1px] bg-outline-variant/20 pointer-events-none"></div>
+            <!-- Dynamic Blips Layer -->
+            <div id="radar-blips-layer" class="absolute inset-0"></div>
+          </div>
+          <!-- Radar Status Footer -->
+          <div class="mt-space-xs pt-space-xs flex items-center justify-between text-outline font-data-mono-sm text-data-mono-sm">
+            <span>Khu: Open Floor</span>
+            <span class="text-secondary font-medium">Bán kính 30m</span>
+          </div>
+        </div>
+
+        <!-- Fast Summon Colleagues Action -->
+        <button id="btn-summon-peers" class="group bg-surface-container-high/90 hover:bg-surface-bright/95 backdrop-blur-xl px-space-md py-space-xs rounded-xl shadow-lg border border-secondary/40 flex items-center gap-space-xs transition-all hover:scale-[1.02] active:scale-[0.98]" type="button">
+          <span class="material-symbols-outlined text-secondary text-[18px] group-hover:rotate-12 transition-transform">group_add</span>
+          <span id="btn-summon-peers-text" class="font-data-mono-sm text-data-mono-sm text-on-surface font-semibold">✨ Triệu hồi 3 đồng nghiệp mẫu</span>
+        </button>
+
+        <!-- Clear Floor Action -->
+        <button id="btn-clear-floor" class="bg-surface-container-lowest/85 hover:bg-error-container/40 backdrop-blur-xl px-3 py-1 rounded-lg border border-outline-variant/30 text-on-surface-variant hover:text-error font-data-mono-sm text-[11px] flex items-center gap-1 transition-colors" type="button">
+          <span class="material-symbols-outlined text-[14px]">restart_alt</span>
+          <span>Làm trống toàn bộ sàn 3D</span>
+        </button>
+      </div>
+
+      <!-- 5. FLOATING / MODAL ULTRAVIEWER VIEW-ONLY WORKSPACE PREVIEW -->
+      <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/55 backdrop-blur-xs opacity-0 pointer-events-none transition-all duration-200" id="ultraviewer-modal">
+        <div class="w-[92vw] max-w-3xl bg-surface-container-lowest/95 backdrop-blur-2xl rounded-2xl border border-primary/50 shadow-[0_24px_80px_rgba(6,182,212,0.35)] overflow-hidden flex flex-col transition-all transform scale-95" id="ultraviewer-box">
+          <!-- UltraViewer Header Bar -->
+          <div class="h-12 px-4 bg-surface-container-high/95 border-b border-outline-variant/30 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button type="button" id="btn-uv-close-dot" class="w-3 h-3 rounded-full bg-error/80 hover:bg-error" title="Đóng"></button>
+                <button type="button" id="btn-uv-pip-dot" class="w-3 h-3 rounded-full bg-amber-400/80 hover:bg-amber-400" title="Thu nhỏ góc màn hình (PiP)"></button>
+                <button type="button" id="btn-uv-max-dot" class="w-3 h-3 rounded-full bg-secondary/80 hover:bg-secondary" title="Phóng to"></button>
+              </div>
+              <span class="h-4 w-[1px] bg-outline-variant/40 shrink-0"></span>
+              <div class="flex items-center gap-2 min-w-0">
+                <span class="material-symbols-outlined text-primary text-[18px] shrink-0">desktop_windows</span>
+                <span class="font-body-md text-on-surface font-semibold text-xs tracking-wide truncate" id="uv-title">UltraViewer Hub • Minh Trang (Product Designer)</span>
+                <span class="bg-secondary/20 text-secondary text-[10px] font-shortcut-key px-1.5 py-0.5 rounded font-bold shrink-0 border border-secondary/30">VIEW-ONLY SHARING</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <div class="hidden sm:flex items-center gap-1 text-[11px] text-on-surface-variant font-data-mono-sm bg-surface-container px-2 py-1 rounded border border-outline-variant/20">
+                <span class="material-symbols-outlined text-secondary text-[13px]">shield_lock</span>
+                <span>Khóa Chuột & Phím Từ Xa</span>
+              </div>
+              <button id="btn-uv-pip-toggle" class="px-2 py-1 rounded bg-surface-container hover:bg-surface-bright text-primary font-data-mono-sm text-[11px] flex items-center gap-1 border border-primary/30 transition-colors" title="Chuyển thành cửa sổ Popup nổi góc phải để vừa đi lại vừa xem" type="button">
+                <span class="material-symbols-outlined text-[14px]">picture_in_picture_alt</span>
+                <span id="uv-pip-label">Thu nhỏ góc (PiP)</span>
+              </button>
+              <button id="btn-uv-close" class="w-7 h-7 rounded hover:bg-surface-container text-on-surface-variant hover:text-on-surface flex items-center justify-center transition-colors" type="button">
+                <span class="material-symbols-outlined text-[18px]">close</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Virtual Monitor Display Content -->
+          <div class="relative bg-surface-container-lowest p-4 sm:p-5 flex flex-col gap-3">
+            <!-- Screen Mirroring Viewport -->
+            <div class="relative w-full h-[300px] sm:h-[340px] rounded-xl bg-[#050b18] border border-outline-variant/40 overflow-hidden flex flex-col justify-between shadow-inner" id="uv-screen-viewport">
+              <!-- Ambient Hologram Grid inside monitor -->
+              <div class="absolute inset-0 bg-[radial-gradient(#06b6d4_1px,transparent_1px)] [background-size:20px_20px] opacity-15 pointer-events-none"></div>
+
+              <!-- Top Window Bar of Remote Desktop -->
+              <div class="flex items-center justify-between px-4 py-2 bg-surface-container-lowest/90 border-b border-outline-variant/30 z-10">
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+                  <span class="font-data-mono-sm text-xs text-on-surface font-semibold" id="uv-software">Figma • Antigravity Spatial 3D System v2.4</span>
+                </div>
+                <div class="flex items-center gap-2 text-[11px] font-data-mono-sm text-on-surface-variant">
+                  <button id="btn-uv-zoom-out" type="button" class="px-1.5 py-0.5 rounded bg-surface-container hover:bg-surface-bright text-on-surface">-</button>
+                  <span id="uv-zoom-readout" class="text-primary font-bold">100%</span>
+                  <button id="btn-uv-zoom-in" type="button" class="px-1.5 py-0.5 rounded bg-surface-container hover:bg-surface-bright text-on-surface">+</button>
+                  <span class="hidden sm:inline text-secondary font-bold ml-1">60 FPS • 12ms</span>
+                </div>
+              </div>
+
+              <!-- Real MediaStream Video (When viewing user's own shared screen) -->
+              <video id="uv-real-video" autoplay playsinline muted class="hidden w-full h-full object-contain bg-black z-10"></video>
+
+              <!-- Dynamic Simulated Live Screen Canvas/HTML Area -->
+              <div id="uv-simulated-screen" class="flex-1 p-4 z-10 overflow-hidden flex flex-col justify-between transition-transform origin-top-left">
+                <!-- Populated dynamically based on colleague / task -->
+              </div>
+
+              <!-- Bottom Status Bar inside monitor -->
+              <div class="flex items-center justify-between px-4 py-1.5 bg-surface-container-lowest/90 border-t border-outline-variant/25 z-10 text-[11px] font-data-mono-sm text-on-surface-variant">
+                <div class="flex items-center gap-2">
+                  <span>ID Phiên: <strong class="text-primary" id="uv-id">612 990 435</strong></span>
+                  <span>•</span>
+                  <span>Chế độ: <strong class="text-secondary">Observer (Chỉ Xem)</strong></span>
+                </div>
+                <div class="flex items-center gap-1 text-secondary">
+                  <span class="material-symbols-outlined text-[13px]">lock</span>
+                  <span>Chuột/Phím của chủ bàn được bảo vệ</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Bar & Quick Desk Chat below screen -->
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5">
+                <button type="button" id="btn-uv-wave" class="px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-data-mono-sm text-xs flex items-center gap-1 border border-outline-variant/30 transition-colors">
+                  <span>👋 Vẫy tay chào</span>
+                </button>
+                <button type="button" id="btn-uv-cheer" class="px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-data-mono-sm text-xs flex items-center gap-1 border border-outline-variant/30 transition-colors">
+                  <span>🔥 Thả tim tiến độ</span>
+                </button>
+              </div>
+
+              <form id="uv-chat-form" class="flex-1 min-w-[200px] flex items-center gap-1.5">
+                <input id="uv-chat-input" type="text" placeholder="Nhắn nhanh tới bàn làm việc này..." class="flex-1 bg-surface-container-low border border-outline-variant/40 rounded-lg px-3 py-1.5 text-xs text-on-surface focus:outline-none focus:border-primary" />
+                <button type="submit" class="px-3.5 py-1.5 rounded-lg bg-primary text-on-primary font-data-mono-sm text-xs font-bold hover:brightness-110 shadow-[0_0_12px_rgba(6,182,212,0.4)] flex items-center gap-1 transition-all">
+                  <span class="material-symbols-outlined text-[15px]">send</span>
+                  <span>Gửi</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. BOTTOM FLOATING DOCK: Minimalist Workspace Customizer (For ALL Users) -->
+      <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 w-full max-w-4xl px-4 pointer-events-auto transition-transform duration-300" id="dock-customizer">
+        <div class="bg-surface-container-lowest/90 backdrop-blur-2xl rounded-2xl p-space-sm shadow-[0_20px_60px_rgba(2,6,23,0.9)] border border-outline-variant/30 flex flex-col gap-2">
+          <!-- Category Header Bar with Mode Switch & Collapse Toggle -->
+          <div class="flex items-center justify-between px-1 gap-2">
+            <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar" id="dock-category-tabs">
+              <button data-cat="all" class="dock-cat-btn px-3 py-1 rounded-lg bg-surface-container-high text-primary font-data-mono-sm text-xs font-semibold flex items-center gap-1.5 border border-primary/20 shadow-sm whitespace-nowrap" type="button">
+                <span class="material-symbols-outlined text-[14px]">bolt</span>
+                <span>Tất cả trang bị</span>
+                <span class="bg-primary/20 text-primary px-1 rounded font-shortcut-key text-[9px]">[1-7]</span>
+              </button>
+              <button data-cat="combo" class="dock-cat-btn px-3 py-1 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-data-mono-sm text-xs font-medium flex items-center gap-1.5 transition-colors whitespace-nowrap" type="button">
+                <span class="material-symbols-outlined text-[14px]">developer_board</span>
+                <span>Combo Nhanh</span>
+              </button>
+              <button data-cat="desk" class="dock-cat-btn px-3 py-1 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-data-mono-sm text-xs font-medium flex items-center gap-1.5 transition-colors whitespace-nowrap" type="button">
+                <span class="material-symbols-outlined text-[14px]">table_restaurant</span>
+                <span>Bàn & PC</span>
+              </button>
+              <button data-cat="chair" class="dock-cat-btn px-3 py-1 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-data-mono-sm text-xs font-medium flex items-center gap-1.5 transition-colors whitespace-nowrap" type="button">
+                <span class="material-symbols-outlined text-[14px]">chair</span>
+                <span>Ghế Ergonomic</span>
+              </button>
+              <button data-cat="decor" class="dock-cat-btn px-3 py-1 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-data-mono-sm text-xs font-medium flex items-center gap-1.5 transition-colors whitespace-nowrap" type="button">
+                <span class="material-symbols-outlined text-[14px]">potted_plant</span>
+                <span>Vách & Cây</span>
+              </button>
+            </div>
+
+            <div class="flex items-center gap-2 pl-2 shrink-0">
+              <button id="btn-rotate-item" type="button" class="px-2.5 py-1 rounded-lg bg-surface-container hover:bg-surface-container-high text-tertiary font-data-mono-sm text-[11px] flex items-center gap-1 border border-tertiary/30" title="Xoay hướng vật phẩm 90° [Phím R]">
+                <span class="material-symbols-outlined text-[14px]">rotate_right</span>
+                <span id="dock-rot-label">0° [R]</span>
+              </button>
+              <button id="btn-walk-mode" type="button" class="px-2.5 py-1 rounded-lg bg-secondary/20 text-secondary border border-secondary/40 font-data-mono-sm text-[11px] font-semibold flex items-center gap-1" title="Chuyển giữa Chế độ Đi bộ và Chế độ Đặt đồ [Phím B]">
+                <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                <span id="build-mode-status">Đang Đặt Đồ: BẬT [B]</span>
+              </button>
+              <button class="w-6 h-6 rounded hover:bg-surface-container text-on-surface-variant flex items-center justify-center" id="btn-toggle-dock" title="Thu gọn / Mở rộng Dock" type="button">
+                <span class="material-symbols-outlined text-[16px]">keyboard_arrow_down</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Compact Furniture Slot Row -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2 pt-1" id="dock-items">
+            <!-- SLOT 1: Combo Nhanh -->
+            <div data-tool="combo_workstation" data-cat="combo" class="dock-slot relative group bg-surface-container-high/90 hover:bg-surface-bright rounded-xl p-2 cursor-pointer transition-all duration-200 border-2 border-secondary shadow-[0_0_15px_rgba(78,222,163,0.25)] flex flex-col items-center text-center">
+              <span class="absolute top-1 left-1 bg-surface-container-lowest font-shortcut-key text-[9px] text-secondary px-1 py-0.5 rounded font-bold">[1]</span>
+              <span class="slot-badge absolute top-1 right-1 bg-secondary text-on-secondary font-shortcut-key text-[8px] px-1 rounded uppercase font-bold">CHỌN</span>
+              <div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center my-1 text-secondary group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-[22px]">developer_board</span>
+              </div>
+              <span class="font-body-md text-xs text-on-surface font-semibold truncate w-full">Combo Trọn Gói</span>
+              <span class="font-data-mono-sm text-[10px] text-secondary">Bàn + PC + Ghế</span>
+            </div>
+
+            <!-- SLOT 2: Bàn Gỗ Chữ L -->
+            <div data-tool="desk_only" data-cat="desk" class="dock-slot relative group bg-surface-container-low/80 hover:bg-surface-container rounded-xl p-2 cursor-pointer transition-all duration-200 border border-outline-variant/30 hover:-translate-y-0.5 flex flex-col items-center text-center">
+              <span class="absolute top-1 left-1 bg-surface-container font-shortcut-key text-[9px] text-on-surface-variant px-1 py-0.5 rounded">[2]</span>
+              <span class="slot-badge hidden absolute top-1 right-1 bg-secondary text-on-secondary font-shortcut-key text-[8px] px-1 rounded uppercase font-bold">CHỌN</span>
+              <div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center my-1 text-primary group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-[22px]">desk</span>
+              </div>
+              <span class="font-body-md text-xs text-on-surface font-medium truncate w-full">Bàn Gỗ Chữ L</span>
+              <span class="font-data-mono-sm text-[10px] text-on-surface-variant">180x120cm</span>
+            </div>
+
+            <!-- SLOT 3: Ghế Ergonomic -->
+            <div data-tool="chair_only" data-cat="chair" class="dock-slot relative group bg-surface-container-low/80 hover:bg-surface-container rounded-xl p-2 cursor-pointer transition-all duration-200 border border-outline-variant/30 hover:-translate-y-0.5 flex flex-col items-center text-center">
+              <span class="absolute top-1 left-1 bg-surface-container font-shortcut-key text-[9px] text-on-surface-variant px-1 py-0.5 rounded">[3]</span>
+              <span class="slot-badge hidden absolute top-1 right-1 bg-secondary text-on-secondary font-shortcut-key text-[8px] px-1 rounded uppercase font-bold">CHỌN</span>
+              <div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center my-1 text-on-surface group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-[22px]">chair_alt</span>
+              </div>
+              <span class="font-body-md text-xs text-on-surface font-medium truncate w-full">Ghế Ergonomic</span>
+              <span class="font-data-mono-sm text-[10px] text-on-surface-variant">Click để ngồi</span>
+            </div>
+
+            <!-- SLOT 4: Dàn Dual 27" 4K -->
+            <div data-tool="pc_monitor" data-cat="desk" class="dock-slot relative group bg-surface-container-low/80 hover:bg-surface-container rounded-xl p-2 cursor-pointer transition-all duration-200 border border-outline-variant/30 hover:-translate-y-0.5 flex flex-col items-center text-center">
+              <span class="absolute top-1 left-1 bg-surface-container font-shortcut-key text-[9px] text-on-surface-variant px-1 py-0.5 rounded">[4]</span>
+              <span class="slot-badge hidden absolute top-1 right-1 bg-secondary text-on-secondary font-shortcut-key text-[8px] px-1 rounded uppercase font-bold">CHỌN</span>
+              <div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center my-1 text-primary group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-[22px]">monitor</span>
+              </div>
+              <span class="font-body-md text-xs text-on-surface font-medium truncate w-full">Dual 27" 4K</span>
+              <span class="font-data-mono-sm text-[10px] text-on-surface-variant">Đặt lên mặt bàn</span>
+            </div>
+
+            <!-- SLOT 5: Vách Kính Tiêu Âm -->
+            <div data-tool="glass_partition" data-cat="decor" class="dock-slot relative group bg-surface-container-low/80 hover:bg-surface-container rounded-xl p-2 cursor-pointer transition-all duration-200 border border-outline-variant/30 hover:-translate-y-0.5 flex flex-col items-center text-center">
+              <span class="absolute top-1 left-1 bg-surface-container font-shortcut-key text-[9px] text-on-surface-variant px-1 py-0.5 rounded">[5]</span>
+              <span class="slot-badge hidden absolute top-1 right-1 bg-secondary text-on-secondary font-shortcut-key text-[8px] px-1 rounded uppercase font-bold">CHỌN</span>
+              <div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center my-1 text-cyan-300 group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-[22px]">vertical_split</span>
+              </div>
+              <span class="font-body-md text-xs text-on-surface font-medium truncate w-full">Vách Kính</span>
+              <span class="font-data-mono-sm text-[10px] text-on-surface-variant">Cách Âm -28dB</span>
+            </div>
+
+            <!-- SLOT 6: Chậu Cây Sansa Temple Flora -->
+            <div data-tool="plant_pot" data-cat="decor" class="dock-slot relative group bg-surface-container-low/80 hover:bg-surface-container rounded-xl p-2 cursor-pointer transition-all duration-200 border border-outline-variant/30 hover:-translate-y-0.5 flex flex-col items-center text-center">
+              <span class="absolute top-1 left-1 bg-surface-container font-shortcut-key text-[9px] text-on-surface-variant px-1 py-0.5 rounded">[6]</span>
+              <span class="slot-badge hidden absolute top-1 right-1 bg-secondary text-on-secondary font-shortcut-key text-[8px] px-1 rounded uppercase font-bold">CHỌN</span>
+              <div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center my-1 text-secondary group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-[22px]">potted_plant</span>
+              </div>
+              <span class="font-body-md text-xs text-on-surface font-medium truncate w-full">Chậu Cây Xanh</span>
+              <span class="font-data-mono-sm text-[10px] text-secondary">+5 Sinh Khí</span>
+            </div>
+
+            <!-- SLOT 7: Thu Hồi / Xóa Đồ -->
+            <div data-tool="eraser" data-cat="all" class="dock-slot relative group bg-surface-container-low/80 hover:bg-error-container/30 rounded-xl p-2 cursor-pointer transition-all duration-200 border border-outline-variant/30 hover:border-error/50 flex flex-col items-center text-center">
+              <span class="absolute top-1 left-1 bg-surface-container font-shortcut-key text-[9px] text-error px-1 py-0.5 rounded">[7]</span>
+              <span class="slot-badge hidden absolute top-1 right-1 bg-error text-on-error font-shortcut-key text-[8px] px-1 rounded uppercase font-bold">XÓA</span>
+              <div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center my-1 text-error group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-[22px]">delete_sweep</span>
+              </div>
+              <span class="font-body-md text-xs text-on-surface font-medium truncate w-full">Thu Hồi Đồ</span>
+              <span class="font-data-mono-sm text-[10px] text-error">Xóa ô đã đặt</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. SCREEN SHARE PERMISSION & PROFILE DRAWER MODAL -->
+      <div id="share-permission-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/65 backdrop-blur-xs p-4">
+        <div class="w-full max-w-md bg-surface-container-lowest/95 border border-primary/40 rounded-2xl p-5 shadow-[0_24px_64px_rgba(6,182,212,0.3)] space-y-4">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-2.5">
+              <div class="w-10 h-10 rounded-xl bg-primary/15 border border-primary/40 flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-[22px]">screen_share</span>
+              </div>
+              <div>
+                <h3 class="font-headline-sm text-base text-on-surface font-semibold">Cấu Hình Chỗ Ngồi & Phát Màn Hình</h3>
+                <p class="font-data-mono-sm text-[11px] text-on-surface-variant">Chế độ UltraViewer Chỉ Xem (View-Only Broadcast)</p>
+              </div>
+            </div>
+            <button id="btn-close-share-modal" type="button" class="w-7 h-7 rounded hover:bg-surface-container text-on-surface-variant hover:text-on-surface flex items-center justify-center">
+              <span class="material-symbols-outlined text-[18px]">close</span>
+            </button>
+          </div>
+
+          <!-- User Name & Avatar Color Quick Edit -->
+          <div class="bg-surface-container-low p-3 rounded-xl border border-outline-variant/30 space-y-2">
+            <label class="block font-data-mono-sm text-[11px] text-on-surface-variant">Tên hiển thị trên đầu nhân vật 3D & Bàn làm việc:</label>
+            <div class="flex items-center gap-2">
+              <input id="input-my-name" type="text" value="Tuấn Anh" class="flex-1 bg-surface-container-lowest border border-outline-variant/40 rounded-lg px-3 py-1.5 text-xs text-on-surface focus:outline-none focus:border-primary" />
+              <input id="input-my-color" type="color" value="#06b6d4" class="w-8 h-8 rounded cursor-pointer bg-transparent border-0" title="Đổi màu áo nhân vật 3D" />
+            </div>
+          </div>
+
+          <div class="bg-surface-container-low/70 p-3 rounded-xl border border-secondary/30 text-xs text-on-surface-variant space-y-1">
+            <div class="flex items-center gap-1.5 text-secondary font-semibold">
+              <span class="material-symbols-outlined text-[16px]">verified_user</span>
+              <span>An toàn tuyệt đối: Chỉ Xem (Observer Mode)</span>
+            </div>
+            <p class="text-[11px] leading-relaxed">
+              Khi bật chia sẻ, màn hình 3D trên bàn của bạn sẽ sáng đèn Cyan/Emerald. Mọi người trong phòng click vào bạn sẽ xem được cửa sổ Popup màn hình nhưng không thể điều khiển chuột hay bàn phím.
+            </p>
+          </div>
+
+          <div class="space-y-2">
+            <button id="btn-start-real-share" type="button" class="w-full py-2.5 px-4 rounded-xl bg-secondary text-on-secondary font-data-mono-sm text-xs font-bold flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(78,222,163,0.35)] hover:brightness-110 transition-all">
+              <span class="material-symbols-outlined text-[18px]">cast_connected</span>
+              <span>Chia Sẻ Màn Hình Thật (Browser getDisplayMedia)</span>
+            </button>
+            <div class="grid grid-cols-2 gap-2">
+              <button id="btn-start-sim-vscode" type="button" class="py-2 px-3 rounded-xl bg-surface-container-high hover:bg-surface-bright text-primary border border-primary/30 font-data-mono-sm text-[11px] font-semibold">
+                Phát VS Code (Demo)
+              </button>
+              <button id="btn-start-sim-figma" type="button" class="py-2 px-3 rounded-xl bg-surface-container-high hover:bg-surface-bright text-tertiary border border-tertiary/30 font-data-mono-sm text-[11px] font-semibold">
+                Phát Figma 3D (Demo)
+              </button>
+            </div>
+            <button id="btn-stop-my-share" type="button" class="hidden w-full py-2 px-3 rounded-xl bg-error-container/60 hover:bg-error-container text-on-error-container font-data-mono-sm text-xs font-semibold">
+              Dừng Phát Màn Hình Của Tôi
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. SLIDE-OVER INFO PANEL FOR ZONES / ROSTER / SETTINGS / KEYBINDS -->
+      <div id="info-drawer" class="hidden fixed top-20 right-6 z-40 w-80 bg-surface-container-lowest/95 backdrop-blur-2xl border border-outline-variant/40 rounded-2xl p-4 shadow-2xl space-y-3">
+        <div class="flex items-center justify-between border-b border-outline-variant/30 pb-2">
+          <span id="info-drawer-title" class="font-headline-sm text-sm text-primary font-semibold">Thông tin không gian</span>
+          <button id="btn-close-drawer" type="button" class="w-6 h-6 rounded hover:bg-surface-container text-on-surface-variant flex items-center justify-center">
+            <span class="material-symbols-outlined text-[16px]">close</span>
+          </button>
+        </div>
+        <div id="info-drawer-body" class="text-xs text-on-surface-variant space-y-2 max-h-[60vh] overflow-y-auto"></div>
+      </div>
+
+      <!-- 9. NON-BLOCKING TOAST NOTIFICATION -->
+      <div id="hud-toast" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-surface-container-lowest/95 border border-primary/50 text-on-surface px-4 py-2 rounded-full shadow-[0_8px_30px_rgba(6,182,212,0.3)] font-data-mono-sm text-xs flex items-center gap-2 opacity-0 pointer-events-none transition-all duration-200">
+        <span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+        <span id="hud-toast-text">Hệ thống sẵn sàng</span>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- COMPLETE 3D ENGINE, FURNITURE BUILDER, RPG AVATAR & ULTRAVIEWER LOGIC -->
+  <script>
+    (function () {
+      // --- TOAST HELPER ---
+      const toastEl = document.getElementById('hud-toast');
+      const toastTextEl = document.getElementById('hud-toast-text');
+      let toastTimer = null;
+      function showToast(msg) {
+        if (!toastEl || !toastTextEl) return;
+        toastTextEl.textContent = msg;
+        toastEl.classList.remove('opacity-0');
+        toastEl.classList.add('opacity-100');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          toastEl.classList.remove('opacity-100');
+          toastEl.classList.add('opacity-0');
+        }, 3400);
+      }
+
+      // --- SOUND SYNTHESIZER (WEB AUDIO API) ---
+      let audioEnabled = true;
+      function playTone(freq, duration, type = 'sine') {
+        if (!audioEnabled) return;
+        try {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtx) return;
+          const ctx = new AudioCtx();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, ctx.currentTime);
+          gain.gain.setValueAtTime(0.05, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + duration);
+        } catch (e) {}
+      }
+
+      // --- APPLICATION STATE ---
+      const GRID_STEP = 2.5; // 2.5 meters per grid cell
+      let cameraMode = '3rd'; // '3rd' | '1st'
+      let buildModeActive = true; // Allow immediate placement on empty floor
+      let selectedTool = 'combo_workstation';
+      let placementRotationIndex = 0; // 0: 0deg, 1: 90deg, 2: 180deg, 3: 270deg
+      const ROTATION_ANGLES = [0, Math.PI / 2, Math.PI, (3 * Math.PI) / 2];
+      const ROTATION_DEGS = [0, 90, 180, 270];
+
+      const playerState = {
+        name: 'Tuấn Anh',
+        role: 'Frontend Dev',
+        color: 0x06b6d4,
+        isSeated: false,
+        seatedStationId: null,
+        isSharing: false,
+        shareMode: 'simulated', // 'real' | 'simulated'
+        simTask: 'VS Code • SpatialOffice3D.tsx (React + Three.js)',
+        mediaStream: null
+      };
+
+      // Map of placed items keyed by "gx,gz"
+      const placedStations = new Map();
+      // Summoned Colleagues Map
+      const colleaguesMap = new Map();
+      let colleaguesSummoned = false;
+
+      // --- THREE.JS SCENE INITIALIZATION ---
+      const container = document.getElementById('threejs-container');
+      const width = container.clientWidth || window.innerWidth;
+      const height = container.clientHeight || window.innerHeight;
+
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.FogExp2(0x060e20, 0.018);
+
+      const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
+      camera.position.set(0, 4.2, 8.5);
+
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.25;
+      container.appendChild(renderer.domElement);
+
+      // Lights
+      const ambientLight = new THREE.AmbientLight(0x1e3a8a, 1.9);
+      scene.add(ambientLight);
+
+      const dirLight = new THREE.DirectionalLight(0x4cd7f6, 2.2);
+      dirLight.position.set(12, 24, 14);
+      scene.add(dirLight);
+
+      const emeraldPointLight = new THREE.PointLight(0x4edea3, 2.6, 30);
+      emeraldPointLight.position.set(-6, 4, -4);
+      scene.add(emeraldPointLight);
+
+      const violetPointLight = new THREE.PointLight(0xd0bcff, 2.2, 28);
+      violetPointLight.position.set(6, 3.5, 4);
+      scene.add(violetPointLight);
+
+      // 1. Open Blank Grid Floor & Raycast Ground Plane
+      const gridHelper = new THREE.GridHelper(60, 24, 0x06b6d4, 0x172554);
+      gridHelper.position.y = 0.02;
+      gridHelper.material.opacity = 0.5;
+      gridHelper.material.transparent = true;
+      scene.add(gridHelper);
+
+      const floorGeo = new THREE.PlaneGeometry(60, 60);
+      const floorMat = new THREE.MeshPhongMaterial({
+        color: 0x060e20,
+        shininess: 85,
+        specular: 0x06b6d4,
+        depthWrite: true
+      });
+      const floorMesh = new THREE.Mesh(floorGeo, floorMat);
+      floorMesh.rotation.x = -Math.PI / 2;
+      scene.add(floorMesh);
+
+      // Walk Target Indicator Ring on Floor
+      const walkRingGeo = new THREE.RingGeometry(0.32, 0.42, 32);
+      const walkRingMat = new THREE.MeshBasicMaterial({
+        color: 0x4cd7f6,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0.0
+      });
+      const walkTargetRing = new THREE.Mesh(walkRingGeo, walkRingMat);
+      walkTargetRing.rotation.x = -Math.PI / 2;
+      walkTargetRing.position.y = 0.04;
+      scene.add(walkTargetRing);
+
+      // Sansa Temple Outer Architectural Columns
+      for (let i = 0; i < 10; i++) {
+        const angle = (i / 10) * Math.PI * 2;
+        const radius = 22;
+        const colGeo = new THREE.CylinderGeometry(0.4, 0.5, 14, 16);
+        const colMat = new THREE.MeshPhongMaterial({ color: 0x0f172a, shininess: 35 });
+        const col = new THREE.Mesh(colGeo, colMat);
+        col.position.set(Math.cos(angle) * radius, 7, Math.sin(angle) * radius);
+
+        const stripGeo = new THREE.BoxGeometry(0.09, 13, 0.09);
+        const stripMat = new THREE.MeshBasicMaterial({ color: i % 2 === 0 ? 0x06b6d4 : 0x4edea3 });
+        const strip = new THREE.Mesh(stripGeo, stripMat);
+        strip.position.set(0, 0, 0.44);
+        col.add(strip);
+        scene.add(col);
+      }
+
+      // Atmospheric Floating Particles
+      const particleCount = 240;
+      const particleGeo = new THREE.BufferGeometry();
+      const particlePos = new Float32Array(particleCount * 3);
+      for (let i = 0; i < particleCount * 3; i += 3) {
+        particlePos[i] = (Math.random() - 0.5) * 40;
+        particlePos[i + 1] = Math.random() * 9 + 0.3;
+        particlePos[i + 2] = (Math.random() - 0.5) * 40;
+      }
+      particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
+      const particleMat = new THREE.PointsMaterial({
+        color: 0x4cd7f6,
+        size: 0.08,
+        transparent: true,
+        opacity: 0.7
+      });
+      const particles = new THREE.Points(particleGeo, particleMat);
+      scene.add(particles);
+
+      // --- 2. 3D HUMANOID RPG CHARACTER FACTORY ---
+      function createHumanoidAvatar3D(primaryColorHex, visorColorHex = 0x4edea3) {
+        const root = new THREE.Group();
+
+        // Torso
+        const torsoGeo = new THREE.BoxGeometry(0.62, 0.82, 0.34);
+        const torsoMat = new THREE.MeshPhongMaterial({ color: primaryColorHex, shininess: 45 });
+        const torso = new THREE.Mesh(torsoGeo, torsoMat);
+        torso.position.y = 1.22;
+        root.add(torso);
+
+        // Head Group (Attached so we can hide in 1st-person POV)
+        const headGroup = new THREE.Group();
+        headGroup.position.set(0, 1.92, 0);
+
+        const headGeo = new THREE.SphereGeometry(0.24, 16, 16);
+        const headMat = new THREE.MeshPhongMaterial({ color: 0xffdfba });
+        const headMesh = new THREE.Mesh(headGeo, headMat);
+        headGroup.add(headMesh);
+
+        // Visor / Cyber Glasses facing -Z (Forward in our rig)
+        const visorGeo = new THREE.BoxGeometry(0.32, 0.11, 0.16);
+        const visorMat = new THREE.MeshBasicMaterial({ color: visorColorHex });
+        const visor = new THREE.Mesh(visorGeo, visorMat);
+        visor.position.set(0, 0.02, -0.17);
+        headGroup.add(visor);
+
+        // Hair / Cap
+        const capGeo = new THREE.BoxGeometry(0.36, 0.14, 0.36);
+        const capMat = new THREE.MeshLambertMaterial({ color: 0x0f172a });
+        const cap = new THREE.Mesh(capGeo, capMat);
+        cap.position.set(0, 0.17, 0);
+        headGroup.add(cap);
+
+        root.add(headGroup);
+
+        // Arms
+        const armGeo = new THREE.BoxGeometry(0.16, 0.68, 0.16);
+        const armMat = new THREE.MeshPhongMaterial({ color: primaryColorHex });
+
+        const leftArmPivot = new THREE.Group();
+        leftArmPivot.position.set(-0.42, 1.56, 0);
+        const leftArm = new THREE.Mesh(armGeo, armMat);
+        leftArm.position.y = -0.32;
+        leftArmPivot.add(leftArm);
+        root.add(leftArmPivot);
+
+        const rightArmPivot = new THREE.Group();
+        rightArmPivot.position.set(0.42, 1.56, 0);
+        const rightArm = new THREE.Mesh(armGeo, armMat);
+        rightArm.position.y = -0.32;
+        rightArmPivot.add(rightArm);
+        root.add(rightArmPivot);
+
+        // Legs
+        const legGeo = new THREE.BoxGeometry(0.2, 0.82, 0.22);
+        const legMat = new THREE.MeshLambertMaterial({ color: 0x1e293b });
+
+        const leftLegPivot = new THREE.Group();
+        leftLegPivot.position.set(-0.18, 0.82, 0);
+        const leftLeg = new THREE.Mesh(legGeo, legMat);
+        leftLeg.position.y = -0.4;
+        leftLegPivot.add(leftLeg);
+        root.add(leftLegPivot);
+
+        const rightLegPivot = new THREE.Group();
+        rightLegPivot.position.set(0.18, 0.82, 0);
+        const rightLeg = new THREE.Mesh(legGeo, legMat);
+        rightLeg.position.y = -0.4;
+        rightLegPivot.add(rightLeg);
+        root.add(rightLegPivot);
+
+        // Floating Halo Ring
+        const haloGeo = new THREE.TorusGeometry(0.35, 0.02, 12, 48);
+        const haloMat = new THREE.MeshBasicMaterial({ color: 0x4cd7f6, transparent: true, opacity: 0.85 });
+        const halo = new THREE.Mesh(haloGeo, haloMat);
+        halo.rotation.x = Math.PI / 2;
+        halo.position.set(0, 2.32, 0);
+        root.add(halo);
+
+        return {
+          root,
+          torso,
+          torsoMat,
+          armMat,
+          headGroup,
+          visorMat,
+          leftArmPivot,
+          rightArmPivot,
+          leftLegPivot,
+          rightLegPivot,
+          halo
+        };
+      }
+
+      // Create Main Player Avatar
+      const playerAvatar = createHumanoidAvatar3D(playerState.color, 0x4edea3);
+      playerAvatar.root.position.set(0, 0, 2.5);
+      scene.add(playerAvatar.root);
+
+      let targetPlayerPos = new THREE.Vector3(0, 0, 2.5);
+
+      // --- 3. 3D FURNITURE & WORKSTATION BUILDER ---
+      const furnitureRootGroup = new THREE.Group();
+      scene.add(furnitureRootGroup);
+
+      function buildFurnitureMesh(config) {
+        const group = new THREE.Group();
+        const { hasDesk, hasChair, hasPC, hasPartition, hasPlant, isLive } = config;
+
+        if (hasDesk) {
+          // Desk Top
+          const topGeo = new THREE.BoxGeometry(2.1, 0.08, 1.1);
+          const topMat = new THREE.MeshLambertMaterial({ color: 0x162447 });
+          const top = new THREE.Mesh(topGeo, topMat);
+          top.position.set(0, 0.92, -0.2);
+          group.add(top);
+
+          // Glowing Cyan Edge Strip on Desk
+          const edgeGeo = new THREE.BoxGeometry(2.12, 0.03, 0.03);
+          const edgeMat = new THREE.MeshBasicMaterial({ color: 0x06b6d4 });
+          const edge = new THREE.Mesh(edgeGeo, edgeMat);
+          edge.position.set(0, 0.92, 0.35);
+          group.add(edge);
+
+          // Desk Legs
+          const legGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.92, 8);
+          const legMat = new THREE.MeshLambertMaterial({ color: 0x334155 });
+          [
+            [-0.95, -0.65],
+            [0.95, -0.65],
+            [-0.95, 0.25],
+            [0.95, 0.25]
+          ].forEach(([lx, lz]) => {
+            const leg = new THREE.Mesh(legGeo, legMat);
+            leg.position.set(lx, 0.46, lz);
+            group.add(leg);
+          });
+
+          // Keyboard & Mouse Pad on Desk
+          const kbGeo = new THREE.BoxGeometry(0.45, 0.02, 0.16);
+          const kbMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+          const kb = new THREE.Mesh(kbGeo, kbMat);
+          kb.position.set(0, 0.97, 0.08);
+          group.add(kb);
+        }
+
+        const monitorMeshes = [];
+        if (hasPC) {
+          const monitorY = hasDesk ? 1.32 : 0.45;
+          const monitorZ = hasDesk ? -0.42 : 0;
+          const screenColor = isLive ? 0x4edea3 : 0x0ea5e9;
+          const screenMat = new THREE.MeshBasicMaterial({ color: screenColor });
+          const bezelMat = new THREE.MeshLambertMaterial({ color: 0x0f172a });
+          const screenGeo = new THREE.BoxGeometry(0.85, 0.48, 0.04);
+
+          const m1 = new THREE.Mesh(screenGeo, screenMat);
+          m1.position.set(-0.44, monitorY, monitorZ);
+          m1.rotation.y = 0.16;
+          group.add(m1);
+          monitorMeshes.push(m1);
+
+          const m2 = new THREE.Mesh(screenGeo, screenMat);
+          m2.position.set(0.44, monitorY, monitorZ);
+          m2.rotation.y = -0.16;
+          group.add(m2);
+          monitorMeshes.push(m2);
+
+          const stand = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.34, 0.1), bezelMat);
+          stand.position.set(0, monitorY - 0.22, monitorZ - 0.04);
+          group.add(stand);
+        }
+
+        if (hasChair) {
+          const chairGroup = new THREE.Group();
+          const chairZ = hasDesk ? 0.55 : 0;
+          const seatMat = new THREE.MeshLambertMaterial({ color: 0x1e293b });
+          const frameMat = new THREE.MeshLambertMaterial({ color: 0x475569 });
+
+          const seat = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.08, 0.58), seatMat);
+          seat.position.set(0, 0.52, chairZ);
+          chairGroup.add(seat);
+
+          const back = new THREE.Mesh(new THREE.BoxGeometry(0.58, 0.68, 0.07), seatMat);
+          back.position.set(0, 0.9, chairZ + 0.27);
+          back.rotation.x = -0.08;
+          chairGroup.add(back);
+
+          const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.5, 8), frameMat);
+          stem.position.set(0, 0.25, chairZ);
+          chairGroup.add(stem);
+
+          group.add(chairGroup);
+        }
+
+        if (hasPartition) {
+          const glassGeo = new THREE.BoxGeometry(2.3, 2.2, 0.08);
+          const glassMat = new THREE.MeshPhongMaterial({
+            color: 0x38bdf8,
+            transparent: true,
+            opacity: 0.32,
+            shininess: 90
+          });
+          const glass = new THREE.Mesh(glassGeo, glassMat);
+          glass.position.set(0, 1.1, -0.85);
+          group.add(glass);
+
+          const frame = new THREE.Mesh(
+            new THREE.BoxGeometry(2.35, 0.06, 0.12),
+            new THREE.MeshBasicMaterial({ color: 0x06b6d4 })
+          );
+          frame.position.set(0, 2.2, -0.85);
+          group.add(frame);
+        }
+
+        if (hasPlant) {
+          const pot = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.28, 0.22, 0.45, 12),
+            new THREE.MeshLambertMaterial({ color: 0x1e293b })
+          );
+          const plantX = hasDesk ? 1.25 : 0;
+          pot.position.set(plantX, 0.225, 0);
+          group.add(pot);
+
+          const foliage = new THREE.Mesh(
+            new THREE.SphereGeometry(0.42, 12, 12),
+            new THREE.MeshLambertMaterial({ color: 0x10b981 })
+          );
+          foliage.position.set(plantX, 0.72, 0);
+          group.add(foliage);
+        }
+
+        // Subtle Floor Hologram Ring
+        const ringGeo = new THREE.RingGeometry(0.95, 1.02, 32);
+        const ringMat = new THREE.MeshBasicMaterial({
+          color: isLive ? 0x4edea3 : 0x06b6d4,
+          side: THREE.DoubleSide,
+          transparent: true,
+          opacity: 0.45
+        });
+        const ring = new THREE.Mesh(ringGeo, ringMat);
+        ring.rotation.x = -Math.PI / 2;
+        ring.position.y = 0.03;
+        group.add(ring);
+
+        return { group, monitorMeshes, ringMat };
+      }
+
+      // 3D Ghost Preview Mesh when hovering floor in Build Mode
+      const ghostGroup = new THREE.Group();
+      const ghostBox = new THREE.Mesh(
+        new THREE.BoxGeometry(2.2, 1.1, 1.4),
+        new THREE.MeshBasicMaterial({ color: 0x4edea3, wireframe: true, transparent: true, opacity: 0.65 })
+      );
+      ghostBox.position.y = 0.55;
+      ghostGroup.add(ghostBox);
+
+      const ghostArrow = new THREE.Mesh(
+        new THREE.ConeGeometry(0.25, 0.5, 8),
+        new THREE.MeshBasicMaterial({ color: 0x4cd7f6 })
+      );
+      ghostArrow.rotation.x = Math.PI / 2;
+      ghostArrow.position.set(0, 0.2, 0.9);
+      ghostGroup.add(ghostArrow);
+      scene.add(ghostGroup);
+
+      function snapToGrid(val) {
+        return Math.round(val / GRID_STEP) * GRID_STEP;
+      }
+
+      function updateStationVisual(key) {
+        const st = placedStations.get(key);
+        if (!st) return;
+        if (st.meshObj) {
+          furnitureRootGroup.remove(st.meshObj.group);
+        }
+        const built = buildFurnitureMesh(st);
+        built.group.position.set(st.x, 0, st.z);
+        built.group.rotation.y = st.rotY;
+        furnitureRootGroup.add(built.group);
+        st.meshObj = built;
+        updateDeskCountHUD();
+      }
+
+      function placeOrModifyAtGrid(gx, gz, toolName, rotY, ownerName = playerState.name, isColleague = false) {
+        const key = `${gx},${gz}`;
+
+        if (toolName === 'eraser') {
+          const existing = placedStations.get(key);
+          if (existing) {
+            if (existing.meshObj) furnitureRootGroup.remove(existing.meshObj.group);
+            if (playerState.seatedStationId === key) {
+              standUpFromSeat();
+            }
+            placedStations.delete(key);
+            playTone(220, 0.1, 'triangle');
+            showToast(`Đã thu hồi đồ đạc tại ô [${gx}, ${gz}]`);
+            updateDeskCountHUD();
+          } else {
+            showToast(`Ô [${gx}, ${gz}] hiện đang trống.`);
+          }
+          return null;
+        }
+
+        const existing = placedStations.get(key) || {
+          key,
+          x: gx,
+          z: gz,
+          rotY,
+          ownerName,
+          isColleague,
+          hasDesk: false,
+          hasChair: false,
+          hasPC: false,
+          hasPartition: false,
+          hasPlant: false,
+          isLive: false
+        };
+
+        existing.rotY = rotY;
+        if (!existing.ownerName) existing.ownerName = ownerName;
+
+        if (toolName === 'combo_workstation') {
+          existing.hasDesk = true;
+          existing.hasChair = true;
+          existing.hasPC = true;
+        } else if (toolName === 'desk_only') {
+          existing.hasDesk = true;
+        } else if (toolName === 'chair_only') {
+          existing.hasChair = true;
+        } else if (toolName === 'pc_monitor') {
+          existing.hasPC = true;
+          existing.hasDesk = true; // Smart snap onto desk
+        } else if (toolName === 'glass_partition') {
+          existing.hasPartition = true;
+        } else if (toolName === 'plant_pot') {
+          existing.hasPlant = true;
+        }
+
+        placedStations.set(key, existing);
+        updateStationVisual(key);
+        playTone(460, 0.09, 'sine');
+        return existing;
+      }
+
+      function updateDeskCountHUD() {
+        const deskReadout = document.getElementById('desk-count-readout');
+        if (deskReadout) {
+          deskReadout.textContent = `${placedStations.size} Trạm đã đặt`;
+        }
+      }
+
+      // --- 4. SIT AT WORKSTATION & STAND UP LOGIC ---
+      const btnSeatAction = document.getElementById('btn-seat-action');
+      const btnSeatActionText = document.getElementById('btn-seat-action-text');
+      const myStateDisplay = document.getElementById('my-state-display');
+      const povDeskHud = document.getElementById('pov-desk-hud');
+
+      function sitAtStation(station) {
+        if (!station) return;
+        playerState.isSeated = true;
+        playerState.seatedStationId = station.key;
+
+        // Calculate chair world position based on station rotation
+        const chairOffset = new THREE.Vector3(0, 0, station.hasDesk ? 0.55 : 0);
+        chairOffset.applyAxisAngle(new THREE.Vector3(0, 1, 0), station.rotY);
+        const seatWorldPos = new THREE.Vector3(station.x, 0, station.z).add(chairOffset);
+
+        targetPlayerPos.copy(seatWorldPos);
+        playerAvatar.root.position.copy(seatWorldPos);
+        // Face towards the desk (-Z in station local space)
+        playerAvatar.root.rotation.y = station.rotY;
+
+        if (btnSeatActionText) btnSeatActionText.textContent = 'Đứng dậy rời ghế [E]';
+        if (myStateDisplay) myStateDisplay.textContent = `Đang ngồi (${station.ownerName})`;
+        playTone(540, 0.14, 'triangle');
+
+        if (station.hasPC && !playerState.isSharing) {
+          showToast(`Đã ngồi vào bàn làm việc! Bấm "Phát Màn Hình" hoặc chọn chế độ chia sẻ.`);
+          openSharePermissionModal();
+        } else {
+          showToast(`Bạn đã ngồi vào ghế tại tọa độ [${station.x}, ${station.z}]. Nhấn [V] để thử Góc nhìn thứ nhất!`);
+        }
+      }
+
+      function standUpFromSeat() {
+        if (!playerState.isSeated) return;
+        playerState.isSeated = false;
+        playerState.seatedStationId = null;
+        // Step slightly back from chair
+        const stepBack = new THREE.Vector3(0, 0, 0.9).applyAxisAngle(
+          new THREE.Vector3(0, 1, 0),
+          playerAvatar.root.rotation.y
+        );
+        targetPlayerPos.add(stepBack);
+        if (btnSeatActionText) btnSeatActionText.textContent = 'Ngồi bàn gần nhất [E]';
+        if (myStateDisplay) myStateDisplay.textContent = 'Đang đi bộ';
+        showToast('Bạn đã đứng dậy khỏi bàn làm việc.');
+      }
+
+      function toggleSitNearestStation() {
+        if (playerState.isSeated) {
+          standUpFromSeat();
+          return;
+        }
+        let nearest = null;
+        let minDist = Infinity;
+        placedStations.forEach((st) => {
+          if (st.isColleague) return; // Don't steal occupied colleague seat
+          if (st.hasChair || st.hasDesk) {
+            const d = Math.hypot(playerAvatar.root.position.x - st.x, playerAvatar.root.position.z - st.z);
+            if (d < minDist) {
+              minDist = d;
+              nearest = st;
+            }
+          }
+        });
+
+        if (!nearest) {
+          // Automatically place a Combo Workstation right in front of the user if floor is completely empty!
+          const gx = snapToGrid(playerAvatar.root.position.x);
+          const gz = snapToGrid(playerAvatar.root.position.z - 2.5);
+          const created = placeOrModifyAtGrid(
+            gx,
+            gz,
+            'combo_workstation',
+            ROTATION_ANGLES[placementRotationIndex],
+            playerState.name,
+            false
+          );
+          sitAtStation(created);
+          return;
+        }
+        sitAtStation(nearest);
+      }
+
+      if (btnSeatAction) {
+        btnSeatAction.addEventListener('click', toggleSitNearestStation);
+      }
+
+      // --- 5. SUMMON / DISMISS 3 SAMPLE COLLEAGUES IN 3D ---
+      const COLLEAGUE_PRESETS = [
+        {
+          id: 'peer-nam',
+          name: 'Hoàng Nam',
+          role: 'Tech Lead',
+          badge: 'LIVE SCREEN',
+          badgeColor: 'secondary',
+          task: 'VS Code • Microservices Go :8080 (Docker Swarm)',
+          subtask: 'VS Code: auth-service.go',
+          uvId: '849 204 112',
+          screenType: 'vscode',
+          gx: -5.0,
+          gz: -2.5,
+          rotY: 0.25,
+          avatarColor: 0x10b981,
+          isLive: true
+        },
+        {
+          id: 'peer-trang',
+          name: 'Minh Trang',
+          role: 'Product Designer',
+          badge: 'LIVE FIGMA',
+          badgeColor: 'primary',
+          task: 'Figma • Antigravity Spatial 3D System v2.4',
+          subtask: 'Layout Sandbox 3D • 120fps',
+          uvId: '612 990 435',
+          screenType: 'figma',
+          gx: 5.0,
+          gz: -2.5,
+          rotY: -0.25,
+          avatarColor: 0x06b6d4,
+          isLive: true
+        },
+        {
+          id: 'peer-huy',
+          name: 'Quốc Huy',
+          role: 'DevOps Specialist',
+          badge: 'LIVE K9S',
+          badgeColor: 'tertiary',
+          task: 'K9s Terminal • Cluster Prod-SG01',
+          subtask: 'K8s Cluster SG • Active',
+          uvId: '339 501 882',
+          screenType: 'terminal',
+          gx: -5.0,
+          gz: 5.0,
+          rotY: 0.15,
+          avatarColor: 0x8b5cf6,
+          isLive: true
+        }
+      ];
+
+      const worldLabelsContainer = document.getElementById('world-labels-container');
+      const btnSummonPeers = document.getElementById('btn-summon-peers');
+      const btnSummonPeersText = document.getElementById('btn-summon-peers-text');
+      const onlineCountBadge = document.getElementById('online-count-badge');
+
+      function createWorldBillboardDOM(peer) {
+        const wrapper = document.createElement('div');
+        wrapper.className =
+          'absolute pointer-events-auto cursor-pointer group transition-transform hover:scale-105 -translate-x-1/2 -translate-y-full';
+        wrapper.innerHTML = `
+          <div class="flex flex-col items-center">
+            <div class="bg-surface-container-lowest/90 backdrop-blur-xl border border-${peer.badgeColor}/50 shadow-[0_0_24px_rgba(6,182,212,0.28)] rounded-lg px-3 py-1.5 flex items-center gap-2.5 transition-all group-hover:border-${peer.badgeColor}">
+              <span class="relative flex h-2.5 w-2.5">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-${peer.badgeColor} opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-${peer.badgeColor}"></span>
+              </span>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-1.5">
+                  <span class="font-body-md text-on-surface font-semibold text-xs leading-none">${peer.name}</span>
+                  <span class="bg-${peer.badgeColor}/20 text-${peer.badgeColor} text-[9px] font-shortcut-key font-bold px-1 py-0.5 rounded leading-none">${peer.badge}</span>
+                </div>
+                <span class="font-data-mono-sm text-[10px] text-on-surface-variant mt-0.5">${peer.subtask}</span>
+              </div>
+              <span class="material-symbols-outlined text-[15px] text-primary group-hover:translate-x-0.5 transition-transform">open_in_new</span>
+            </div>
+            <div class="w-[1px] h-5 bg-gradient-to-b from-${peer.badgeColor} to-transparent"></div>
+          </div>
+        `;
+        wrapper.addEventListener('click', (e) => {
+          e.stopPropagation();
+          window.openUltraViewer(peer.name, peer.role, peer.task, peer.uvId, peer.screenType, false);
+        });
+        worldLabelsContainer.appendChild(wrapper);
+        return wrapper;
+      }
+
+      function toggleSummonColleagues() {
+        if (!colleaguesSummoned) {
+          COLLEAGUE_PRESETS.forEach((preset) => {
+            const st = placeOrModifyAtGrid(
+              preset.gx,
+              preset.gz,
+              'combo_workstation',
+              preset.rotY,
+              preset.name,
+              true
+            );
+            st.isLive = true;
+            updateStationVisual(st.key);
+
+            // Spawn Seated 3D Avatar at that desk
+            const av = createHumanoidAvatar3D(preset.avatarColor, 0x4edea3);
+            const chairOffset = new THREE.Vector3(0, 0, 0.55).applyAxisAngle(
+              new THREE.Vector3(0, 1, 0),
+              preset.rotY
+            );
+            av.root.position.set(preset.gx + chairOffset.x, 0, preset.gz + chairOffset.z);
+            av.root.rotation.y = preset.rotY;
+
+            // Seated posture
+            av.torso.position.y = 0.92;
+            av.headGroup.position.y = 1.56;
+            av.leftLegPivot.position.y = 0.58;
+            av.rightLegPivot.position.y = 0.58;
+            av.leftLegPivot.rotation.x = -Math.PI / 2.2;
+            av.rightLegPivot.rotation.x = -Math.PI / 2.2;
+            av.leftArmPivot.position.y = 1.24;
+            av.rightArmPivot.position.y = 1.24;
+            av.leftArmPivot.rotation.x = -0.85;
+            av.rightArmPivot.rotation.x = -0.85;
+
+            scene.add(av.root);
+            const domTag = createWorldBillboardDOM(preset);
+            colleaguesMap.set(preset.id, { ...preset, avatar: av, domTag, stationKey: st.key });
+          });
+
+          colleaguesSummoned = true;
+          if (btnSummonPeersText) btnSummonPeersText.textContent = 'Thu hồi 3 đồng nghiệp mẫu';
+          if (onlineCountBadge) onlineCountBadge.textContent = '4/20 Online';
+          showToast('✨ Đã triệu hồi 3 đồng nghiệp 3D tự lắp bàn ghế & bật Live Screen! Click vào thẻ tên để xem màn hình.');
+        } else {
+          colleaguesMap.forEach((peer) => {
+            scene.remove(peer.avatar.root);
+            if (peer.domTag) peer.domTag.remove();
+            const st = placedStations.get(peer.stationKey);
+            if (st && st.meshObj) {
+              furnitureRootGroup.remove(st.meshObj.group);
+            }
+            placedStations.delete(peer.stationKey);
+          });
+          colleaguesMap.clear();
+          colleaguesSummoned = false;
+          if (btnSummonPeersText) btnSummonPeersText.textContent = '✨ Triệu hồi 3 đồng nghiệp mẫu';
+          if (onlineCountBadge) onlineCountBadge.textContent = '1/20 Online';
+          updateDeskCountHUD();
+          showToast('Đã thu hồi các đồng nghiệp mẫu — trả lại mặt sàn trống.');
+        }
+      }
+
+      if (btnSummonPeers) {
+        btnSummonPeers.addEventListener('click', toggleSummonColleagues);
+      }
+
+      // Clear Entire Floor Button
+      const btnClearFloor = document.getElementById('btn-clear-floor');
+      if (btnClearFloor) {
+        btnClearFloor.addEventListener('click', () => {
+          if (colleaguesSummoned) toggleSummonColleagues();
+          placedStations.forEach((st) => {
+            if (st.meshObj) furnitureRootGroup.remove(st.meshObj.group);
+          });
+          placedStations.clear();
+          if (playerState.isSeated) standUpFromSeat();
+          updateDeskCountHUD();
+          showToast('Đã dọn sạch toàn bộ mặt bằng 3D về trạng thái không gian trống ban đầu!');
+        });
+      }
+
+      // --- 6. RAYCASTING, MOUSE ORBIT & FLOOR PLACEMENT ---
+      const raycaster = new THREE.Raycaster();
+      const mouseNDC = new THREE.Vector2();
+      let isDraggingOrbit = false;
+      let dragStartX = 0;
+      let dragStartY = 0;
+      let pointerDownX = 0;
+      let pointerDownY = 0;
+      let cameraOrbitYaw = 0;
+      let cameraOrbitPitch = 0.38;
+      let cameraZoomDist = 7.2;
+
+      const canvasWrapper = document.getElementById('webgl-canvas-wrapper');
+
+      canvasWrapper.addEventListener('mousedown', (e) => {
+        isDraggingOrbit = true;
+        dragStartX = e.clientX;
+        dragStartY = e.clientY;
+        pointerDownX = e.clientX;
+        pointerDownY = e.clientY;
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        const rect = renderer.domElement.getBoundingClientRect();
+        mouseNDC.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        mouseNDC.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+        if (isDraggingOrbit) {
+          const dx = e.clientX - dragStartX;
+          const dy = e.clientY - dragStartY;
+          dragStartX = e.clientX;
+          dragStartY = e.clientY;
+          cameraOrbitYaw -= dx * 0.0065;
+          cameraOrbitPitch = Math.max(-0.25, Math.min(1.15, cameraOrbitPitch + dy * 0.005));
+        }
+
+        // Update Ghost Placement Preview on Floor
+        if (buildModeActive && cameraMode === '3rd') {
+          raycaster.setFromCamera(mouseNDC, camera);
+          const hits = raycaster.intersectObject(floorMesh);
+          if (hits.length > 0) {
+            const pt = hits[0].point;
+            const gx = snapToGrid(pt.x);
+            const gz = snapToGrid(pt.z);
+            ghostGroup.visible = true;
+            ghostGroup.position.set(gx, 0, gz);
+            ghostGroup.rotation.y = ROTATION_ANGLES[placementRotationIndex];
+          } else {
+            ghostGroup.visible = false;
+          }
+        } else {
+          ghostGroup.visible = false;
+        }
+      });
+
+      window.addEventListener('mouseup', (e) => {
+        if (!isDraggingOrbit) return;
+        isDraggingOrbit = false;
+        const moveDist = Math.hypot(e.clientX - pointerDownX, e.clientY - pointerDownY);
+        if (moveDist > 6) return; // Was an orbit drag, not a click
+
+        // Ensure click happened inside the 3D canvas
+        if (e.target !== renderer.domElement) return;
+
+        raycaster.setFromCamera(mouseNDC, camera);
+
+        // 1. Check if user clicked on a Colleague's 3D Avatar to view their screen
+        const colleagueMeshes = [];
+        colleaguesMap.forEach((peer) => {
+          peer.avatar.root.traverse((child) => {
+            if (child.isMesh) {
+              child.userData.peerId = peer.id;
+              colleagueMeshes.push(child);
+            }
+          });
+        });
+        const peerHits = raycaster.intersectObjects(colleagueMeshes, true);
+        if (peerHits.length > 0) {
+          const hitPeerId = peerHits[0].object.userData.peerId;
+          const peer = colleaguesMap.get(hitPeerId);
+          if (peer) {
+            window.openUltraViewer(peer.name, peer.role, peer.task, peer.uvId, peer.screenType, false);
+            return;
+          }
+        }
+
+        // 2. Intersect with Floor Plane
+        const hits = raycaster.intersectObject(floorMesh);
+        if (hits.length > 0) {
+          const pt = hits[0].point;
+          const gx = snapToGrid(pt.x);
+          const gz = snapToGrid(pt.z);
+          const key = `${gx},${gz}`;
+
+          // If clicking an existing non-colleague station while not erasing -> walk & sit at it!
+          if (placedStations.has(key) && selectedTool !== 'eraser' && !buildModeActive) {
+            const st = placedStations.get(key);
+            if (!st.isColleague && (st.hasChair || st.hasDesk)) {
+              sitAtStation(st);
+              return;
+            }
+          }
+
+          if (buildModeActive) {
+            const placed = placeOrModifyAtGrid(
+              gx,
+              gz,
+              selectedTool,
+              ROTATION_ANGLES[placementRotationIndex],
+              playerState.name,
+              false
+            );
+            if (placed) {
+              showToast(`Đã đặt trang bị tại ô [${gx}, ${gz}] • Bấm [E] để ngồi vào bàn vừa đặt!`);
+            }
+          } else {
+            // Walk to clicked point
+            if (playerState.isSeated) standUpFromSeat();
+            targetPlayerPos.set(pt.x, 0, pt.z);
+            walkTargetRing.position.set(pt.x, 0.04, pt.z);
+            walkRingMat.opacity = 0.9;
+            playTone(300, 0.05, 'sine');
+          }
+        }
+      });
+
+      // Mouse Wheel Zoom
+      canvasWrapper.addEventListener(
+        'wheel',
+        (e) => {
+          e.preventDefault();
+          cameraZoomDist = Math.max(3.0, Math.min(18.0, cameraZoomDist + e.deltaY * 0.005));
+        },
+        { passive: false }
+      );
+
+      // --- 7. KEYBOARD CONTROLS (WASD, R, B, E, V, 1-7) ---
+      const keysPressed = {};
+      window.addEventListener('keydown', (e) => {
+        if (['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
+        const k = e.key.toLowerCase();
+        keysPressed[k] = true;
+
+        if (k === 'v') {
+          setCameraPerspective(cameraMode === '3rd' ? '1st' : '3rd');
+        } else if (k === 'r') {
+          rotateSelectedFurniture();
+        } else if (k === 'b') {
+          toggleBuildWalkMode();
+        } else if (k === 'e') {
+          toggleSitNearestStation();
+        } else if (['1', '2', '3', '4', '5', '6', '7'].includes(k)) {
+          const idx = parseInt(k, 10) - 1;
+          const slots = document.querySelectorAll('.dock-slot');
+          if (slots[idx]) slots[idx].click();
+        } else if (e.key === 'Escape') {
+          window.closeUltraViewer();
+          closeSharePermissionModal();
+        }
+      });
+
+      window.addEventListener('keyup', (e) => {
+        keysPressed[e.key.toLowerCase()] = false;
+      });
+
+      // --- 8. DOCK & TOOLBAR INTERACTIONS ---
+      const dockSlots = document.querySelectorAll('.dock-slot');
+      const buildModeBtn = document.getElementById('btn-walk-mode');
+      const buildModeStatus = document.getElementById('build-mode-status');
+
+      function setBuildMode(active) {
+        buildModeActive = active;
+        if (!buildModeBtn || !buildModeStatus) return;
+        if (buildModeActive) {
+          buildModeBtn.className =
+            'px-2.5 py-1 rounded-lg bg-secondary/20 text-secondary border border-secondary/40 font-data-mono-sm text-[11px] font-semibold flex items-center gap-1';
+          buildModeStatus.textContent = 'Đang Đặt Đồ: BẬT [B]';
+        } else {
+          buildModeBtn.className =
+            'px-2.5 py-1 rounded-lg bg-primary/20 text-primary border border-primary/40 font-data-mono-sm text-[11px] font-semibold flex items-center gap-1';
+          buildModeStatus.textContent = 'Chế Độ Đi Bộ [B]';
+        }
+      }
+
+      function toggleBuildWalkMode() {
+        setBuildMode(!buildModeActive);
+        showToast(
+          buildModeActive
+            ? 'Đã bật Chế độ Tự Đặt Bàn Ghế PC — Click lên sàn 3D để đặt!'
+            : 'Đã chuyển sang Chế độ Đi Bộ Nhập Vai — Click lên sàn hoặc nhấn WASD để di chuyển!'
+        );
+      }
+
+      if (buildModeBtn) {
+        buildModeBtn.addEventListener('click', toggleBuildWalkMode);
+      }
+
+      dockSlots.forEach((slot) => {
+        slot.addEventListener('click', () => {
+          selectedTool = slot.getAttribute('data-tool');
+          setBuildMode(true);
+
+          dockSlots.forEach((s) => {
+            s.className =
+              'dock-slot relative group bg-surface-container-low/80 hover:bg-surface-container rounded-xl p-2 cursor-pointer transition-all duration-200 border border-outline-variant/30 hover:-translate-y-0.5 flex flex-col items-center text-center';
+            const b = s.querySelector('.slot-badge');
+            if (b) b.classList.add('hidden');
+          });
+
+          slot.className =
+            'dock-slot relative group bg-surface-container-high/90 hover:bg-surface-bright rounded-xl p-2 cursor-pointer transition-all duration-200 border-2 border-secondary shadow-[0_0_15px_rgba(78,222,163,0.25)] flex flex-col items-center text-center';
+          const badge = slot.querySelector('.slot-badge');
+          if (badge) badge.classList.remove('hidden');
+          playTone(400, 0.06, 'sine');
+        });
+      });
+
+      // Category Tabs Filtering
+      const catButtons = document.querySelectorAll('.dock-cat-btn');
+      catButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const cat = btn.getAttribute('data-cat');
+          catButtons.forEach((b) => {
+            b.className =
+              'dock-cat-btn px-3 py-1 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-data-mono-sm text-xs font-medium flex items-center gap-1.5 transition-colors whitespace-nowrap';
+          });
+          btn.className =
+            'dock-cat-btn px-3 py-1 rounded-lg bg-surface-container-high text-primary font-data-mono-sm text-xs font-semibold flex items-center gap-1.5 border border-primary/20 shadow-sm whitespace-nowrap';
+
+          dockSlots.forEach((slot) => {
+            const slotCat = slot.getAttribute('data-cat');
+            if (cat === 'all' || slotCat === cat || slot.getAttribute('data-tool') === 'eraser') {
+              slot.classList.remove('hidden');
+            } else {
+              slot.classList.add('hidden');
+            }
+          });
+        });
+      });
+
+      // Rotate Furniture Button
+      function rotateSelectedFurniture() {
+        placementRotationIndex = (placementRotationIndex + 1) % 4;
+        const deg = ROTATION_DEGS[placementRotationIndex];
+        const rotInd = document.getElementById('rotation-indicator');
+        const dockRot = document.getElementById('dock-rot-label');
+        if (rotInd) rotInd.textContent = `Xoay đồ (${deg}°)`;
+        if (dockRot) dockRot.textContent = `${deg}° [R]`;
+        playTone(350, 0.05, 'triangle');
+      }
+
+      const btnRotateItem = document.getElementById('btn-rotate-item');
+      if (btnRotateItem) {
+        btnRotateItem.addEventListener('click', rotateSelectedFurniture);
+      }
+
+      // Dock Collapse Toggle
+      const btnToggleDock = document.getElementById('btn-toggle-dock');
+      const dockItems = document.getElementById('dock-items');
+      if (btnToggleDock && dockItems) {
+        let isCollapsed = false;
+        btnToggleDock.addEventListener('click', () => {
+          isCollapsed = !isCollapsed;
+          dockItems.classList.toggle('hidden', isCollapsed);
+          btnToggleDock.querySelector('span').textContent = isCollapsed
+            ? 'keyboard_arrow_up'
+            : 'keyboard_arrow_down';
+        });
+      }
+
+      // --- 9. CAMERA PERSPECTIVE SWITCHING (3RD PERSON RPG vs 1ST PERSON POV) ---
+      const btn3rdNav = document.getElementById('nav-btn-3rd');
+      const btn1stNav = document.getElementById('nav-btn-1st');
+      const btn3rdHud = document.getElementById('btn-cam-3rd');
+      const btn1stHud = document.getElementById('btn-cam-1st');
+      const btnExitPov = document.getElementById('btn-exit-pov');
+
+      function setCameraPerspective(mode) {
+        cameraMode = mode;
+        const isFirst = mode === '1st';
+        playerAvatar.headGroup.visible = !isFirst;
+
+        if (povDeskHud) {
+          povDeskHud.classList.toggle('hidden', !isFirst);
+        }
+
+        if (!isFirst) {
+          btn3rdHud.className =
+            'px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container font-data-mono-sm text-data-mono-sm font-bold flex items-center gap-1.5 shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all';
+          btn1stHud.className =
+            'px-space-md py-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-data-mono-sm text-data-mono-sm font-medium flex items-center gap-1.5 transition-colors';
+          btn3rdNav.className =
+            'px-space-sm py-1 rounded bg-primary-container text-on-primary-container font-data-mono-sm text-data-mono-sm font-semibold flex items-center gap-space-xs shadow';
+          btn1stNav.className =
+            'px-space-sm py-1 rounded text-on-surface-variant hover:text-on-surface font-data-mono-sm text-data-mono-sm flex items-center gap-space-xs transition-colors';
+          showToast('Đã chuyển sang Góc nhìn thứ 3 Nhập vai (3rd-Person RPG Orbit)');
+        } else {
+          btn1stHud.className =
+            'px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container font-data-mono-sm text-data-mono-sm font-bold flex items-center gap-1.5 shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all';
+          btn3rdHud.className =
+            'px-space-md py-1.5 rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-data-mono-sm text-data-mono-sm font-medium flex items-center gap-1.5 transition-colors';
+          btn1stNav.className =
+            'px-space-sm py-1 rounded bg-primary-container text-on-primary-container font-data-mono-sm text-data-mono-sm font-semibold flex items-center gap-space-xs shadow';
+          btn3rdNav.className =
+            'px-space-sm py-1 rounded text-on-surface-variant hover:text-on-surface font-data-mono-sm text-data-mono-sm flex items-center gap-space-xs transition-colors';
+          cameraOrbitYaw = playerAvatar.root.rotation.y;
+          cameraOrbitPitch = 0.05;
+          showToast('Đã chuyển sang Góc nhìn thứ nhất (1st-Person POV) — Kéo chuột để nhìn quanh bàn & đồng nghiệp!');
+        }
+      }
+
+      if (btn3rdHud) btn3rdHud.addEventListener('click', () => setCameraPerspective('3rd'));
+      if (btn1stHud) btn1stHud.addEventListener('click', () => setCameraPerspective('1st'));
+      if (btn3rdNav) btn3rdNav.addEventListener('click', () => setCameraPerspective('3rd'));
+      if (btn1stNav) btn1stNav.addEventListener('click', () => setCameraPerspective('1st'));
+      if (btnExitPov) btnExitPov.addEventListener('click', () => setCameraPerspective('3rd'));
+
+      // --- 10. PLAYER SCREEN SHARING (REAL getDisplayMedia + SIMULATED) ---
+      const sharePermModal = document.getElementById('share-permission-modal');
+      const btnShareMyScreen = document.getElementById('btn-share-my-screen');
+      const btnMyProfile = document.getElementById('btn-my-profile');
+      const btnCloseShareModal = document.getElementById('btn-close-share-modal');
+      const btnStartRealShare = document.getElementById('btn-start-real-share');
+      const btnStartSimVscode = document.getElementById('btn-start-sim-vscode');
+      const btnStartSimFigma = document.getElementById('btn-start-sim-figma');
+      const btnStopMyShare = document.getElementById('btn-stop-my-share');
+      const inputMyName = document.getElementById('input-my-name');
+      const inputMyColor = document.getElementById('input-my-color');
+      const myNameDisplay = document.getElementById('my-name-display');
+      const myLiveBadge = document.getElementById('my-live-badge');
+
+      function openSharePermissionModal() {
+        if (sharePermModal) sharePermModal.classList.remove('hidden');
+      }
+      function closeSharePermissionModal() {
+        if (sharePermModal) sharePermModal.classList.add('hidden');
+      }
+
+      if (btnShareMyScreen) btnShareMyScreen.addEventListener('click', openSharePermissionModal);
+      if (btnMyProfile) btnMyProfile.addEventListener('click', openSharePermissionModal);
+      if (btnCloseShareModal) btnCloseShareModal.addEventListener('click', closeSharePermissionModal);
+
+      if (inputMyName) {
+        inputMyName.addEventListener('input', (e) => {
+          playerState.name = e.target.value.trim() || 'Tuấn Anh';
+          if (myNameDisplay) myNameDisplay.textContent = playerState.name;
+        });
+      }
+
+      if (inputMyColor) {
+        inputMyColor.addEventListener('input', (e) => {
+          const hexInt = parseInt(e.target.value.replace('#', '0x'), 16);
+          playerState.color = hexInt;
+          playerAvatar.torsoMat.color.setHex(hexInt);
+          playerAvatar.armMat.color.setHex(hexInt);
+        });
+      }
+
+      function setPlayerSharingActive(active, mode, simType, taskTitle) {
+        playerState.isSharing = active;
+        playerState.shareMode = mode;
+        playerState.simTask = taskTitle || 'VS Code • SpatialOffice3D.tsx';
+
+        if (myLiveBadge) {
+          if (active) {
+            myLiveBadge.textContent = 'LIVE';
+            myLiveBadge.className =
+              'absolute -bottom-1 -right-1 bg-secondary text-on-secondary font-shortcut-key text-shortcut-key px-[3px] py-[1px] rounded font-bold uppercase leading-none shadow-[0_0_8px_rgba(78,222,163,0.5)]';
+          } else {
+            myLiveBadge.textContent = 'IDLE';
+            myLiveBadge.className =
+              'absolute -bottom-1 -right-1 bg-surface-container-highest text-on-surface-variant font-shortcut-key text-shortcut-key px-[3px] py-[1px] rounded font-bold uppercase leading-none border border-outline-variant/40';
+          }
+        }
+
+        if (btnStopMyShare) {
+          btnStopMyShare.classList.toggle('hidden', !active);
+        }
+
+        // Highlight player's seated station monitors if seated
+        if (playerState.seatedStationId && placedStations.has(playerState.seatedStationId)) {
+          const st = placedStations.get(playerState.seatedStationId);
+          st.isLive = active;
+          updateStationVisual(st.key);
+        }
+
+        closeSharePermissionModal();
+
+        if (active) {
+          window.openUltraViewer(
+            playerState.name,
+            playerState.role,
+            playerState.simTask,
+            '998 102 774',
+            simType || 'vscode',
+            mode === 'real'
+          );
+        }
+      }
+
+      if (btnStartRealShare) {
+        btnStartRealShare.addEventListener('click', async () => {
+          try {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
+              throw new Error('Not supported');
+            }
+            const stream = await navigator.mediaDevices.getDisplayMedia({
+              video: { cursor: 'always' },
+              audio: false
+            });
+            playerState.mediaStream = stream;
+            stream.getVideoTracks()[0].onended = () => {
+              playerState.mediaStream = null;
+              setPlayerSharingActive(false, 'simulated', 'vscode', '');
+              showToast('Đã dừng chia sẻ màn hình.');
+            };
+            setPlayerSharingActive(true, 'real', 'vscode', 'Luồng Màn Hình Thực Tế (WebRTC MediaStream)');
+            showToast('Đang phát trực tiếp màn hình máy tính của bạn ở chế độ Chỉ Xem (View-Only)!');
+          } catch (err) {
+            setPlayerSharingActive(true, 'simulated', 'vscode', 'VS Code • Antigravity3DWorkspace.tsx');
+            showToast('Trình duyệt nhúng hạn chế quyền quay OS — đã tự động bật Màn hình VS Code Live!');
+          }
+        });
+      }
+
+      if (btnStartSimVscode) {
+        btnStartSimVscode.addEventListener('click', () => {
+          setPlayerSharingActive(true, 'simulated', 'vscode', 'VS Code • Antigravity3DWorkspace.tsx');
+          showToast('Đã bật phát màn hình VS Code (Chế độ Chỉ Xem)!');
+        });
+      }
+
+      if (btnStartSimFigma) {
+        btnStartSimFigma.addEventListener('click', () => {
+          setPlayerSharingActive(true, 'simulated', 'figma', 'Figma • Sansa 3D Hub UI Kit');
+          showToast('Đã bật phát màn hình Figma 3D (Chế độ Chỉ Xem)!');
+        });
+      }
+
+      if (btnStopMyShare) {
+        btnStopMyShare.addEventListener('click', () => {
+          if (playerState.mediaStream) {
+            playerState.mediaStream.getTracks().forEach((t) => t.stop());
+            playerState.mediaStream = null;
+          }
+          setPlayerSharingActive(false, 'simulated', 'vscode', '');
+          window.closeUltraViewer();
+          showToast('Đã tắt chia sẻ màn hình của bạn.');
+        });
+      }
+
+      // --- 11. ULTRAVIEWER VIEW-ONLY MODAL & FLOATING PIP LOGIC ---
+      const uvModal = document.getElementById('ultraviewer-modal');
+      const uvBox = document.getElementById('ultraviewer-box');
+      const uvTitle = document.getElementById('uv-title');
+      const uvSoftware = document.getElementById('uv-software');
+      const uvId = document.getElementById('uv-id');
+      const uvSimulatedScreen = document.getElementById('uv-simulated-screen');
+      const uvRealVideo = document.getElementById('uv-real-video');
+      const uvZoomReadout = document.getElementById('uv-zoom-readout');
+      const uvPipLabel = document.getElementById('uv-pip-label');
+
+      let isUvPipMode = false;
+      let uvZoom = 1.0;
+
+      function renderSimulatedScreenHTML(screenType, ownerName) {
+        if (screenType === 'figma') {
+          return `
+            <div class="flex flex-col h-full justify-between font-data-mono-sm text-xs">
+              <div class="grid grid-cols-2 gap-3 my-auto">
+                <div class="p-3 rounded-xl bg-surface-container-high/90 border border-primary/40 space-y-2">
+                  <div class="flex items-center justify-between text-[10px] text-primary">
+                    <span>COMPONENT: 3D AVATAR RIG</span>
+                    <span>120 FPS</span>
+                  </div>
+                  <div class="h-24 rounded-lg bg-gradient-to-br from-primary/25 to-tertiary/25 border border-primary/30 flex items-center justify-center text-on-surface font-semibold">
+                    Humanoid 3D Mesh + Halo
+                  </div>
+                </div>
+                <div class="p-3 rounded-xl bg-surface-container-high/90 border border-secondary/40 space-y-2">
+                  <div class="flex items-center justify-between text-[10px] text-secondary">
+                    <span>COMPONENT: ULTRAVIEWER PIP</span>
+                    <span>VIEW-ONLY</span>
+                  </div>
+                  <div class="h-24 rounded-lg bg-gradient-to-br from-secondary/20 to-primary/20 border border-secondary/30 flex items-center justify-center text-on-surface font-semibold">
+                    Observer Stream Locked
+                  </div>
+                </div>
+              </div>
+              <div class="text-[11px] text-on-surface-variant flex items-center justify-between bg-surface-container/60 px-3 py-1.5 rounded-lg">
+                <span>🎨 Con trỏ của <strong class="text-primary">${ownerName}</strong> đang chỉnh sửa Auto-Layout 3D Dock</span>
+                <span class="text-secondary">Đồng bộ Figma Live</span>
+              </div>
+            </div>
+          `;
+        }
+        if (screenType === 'terminal') {
+          return `
+            <div class="font-data-mono-sm text-[11px] text-on-surface space-y-1.5 bg-black/50 p-3 rounded-xl border border-tertiary/30 h-full overflow-hidden">
+              <div class="text-tertiary font-bold">$ k9s --context prod-sg01-antigravity-3d</div>
+              <div class="text-secondary">[OK] webrtc-sfu-mesh-01   Running   0 restarts   CPU: 14%   MEM: 412Mi</div>
+              <div class="text-secondary">[OK] spatial-sync-ws-02   Running   0 restarts   CPU: 09%   MEM: 290Mi</div>
+              <div class="text-primary">[INFO] Broadcasting 3D avatar transform matrices @ 60Hz (UDP/WebRTC)</div>
+              <div class="text-amber-300">[SECURITY] UltraViewer View-Only Policy: Remote HID injection BLOCKED</div>
+              <div class="text-on-surface-variant animate-pulse">_ Đang giám sát cụm máy chủ bởi ${ownerName}...</div>
+            </div>
+          `;
+        }
+        // Default VS Code view
+        return `
+          <div class="font-data-mono-sm text-[11px] text-on-surface space-y-1 bg-black/50 p-3 rounded-xl border border-secondary/30 h-full overflow-hidden">
+            <div class="text-on-surface-variant">// File: src/spatial/UltraViewerStream.ts — Đang code bởi ${ownerName}</div>
+            <div><span class="text-tertiary">export async function</span> <span class="text-primary">startViewOnlyStream</span>(seatId: string) {</div>
+            <div class="pl-4"><span class="text-tertiary">const</span> stream = <span class="text-tertiary">await</span> navigator.mediaDevices.<span class="text-secondary">getDisplayMedia</span>({</div>
+            <div class="pl-8">video: { frameRate: <span class="text-amber-300">60</span>, width: <span class="text-amber-300">2560</span> }, audio: <span class="text-amber-300">false</span></div>
+            <div class="pl-4">});</div>
+            <div class="pl-4 bg-primary/15 border-l-2 border-primary">peerMesh.<span class="text-secondary">broadcastReadOnlyTrack</span>(seatId, stream, { allowRemoteControl: <span class="text-error">false</span> });</div>
+            <div>}</div>
+          </div>
+        `;
+      }
+
+      window.openUltraViewer = function (name, role, task, id, screenType = 'vscode', isRealStream = false) {
+        if (!uvModal) return;
+        uvTitle.textContent = `UltraViewer Hub • ${name} (${role})`;
+        uvSoftware.textContent = task;
+        uvId.textContent = id;
+
+        if (isRealStream && playerState.mediaStream && uvRealVideo) {
+          uvRealVideo.srcObject = playerState.mediaStream;
+          uvRealVideo.classList.remove('hidden');
+          uvSimulatedScreen.classList.add('hidden');
+        } else {
+          if (uvRealVideo) uvRealVideo.classList.add('hidden');
+          uvSimulatedScreen.classList.remove('hidden');
+          uvSimulatedScreen.innerHTML = renderSimulatedScreenHTML(screenType, name);
+        }
+
+        uvModal.classList.remove('opacity-0', 'pointer-events-none');
+        uvModal.classList.add('opacity-100', 'pointer-events-auto');
+        uvBox.classList.remove('scale-95');
+        uvBox.classList.add('scale-100');
+        playTone(580, 0.12, 'sine');
+      };
+
+      window.closeUltraViewer = function () {
+        if (!uvModal) return;
+        uvModal.classList.remove('opacity-100', 'pointer-events-auto');
+        uvModal.classList.add('opacity-0', 'pointer-events-none');
+      };
+
+      function toggleUvPipMode() {
+        isUvPipMode = !isUvPipMode;
+        if (isUvPipMode) {
+          uvModal.className =
+            'fixed bottom-28 right-6 z-50 flex items-end justify-end pointer-events-none transition-all duration-200';
+          uvBox.className =
+            'w-[370px] sm:w-[430px] bg-surface-container-lowest/95 backdrop-blur-2xl rounded-2xl border-2 border-secondary shadow-[0_16px_50px_rgba(2,6,23,0.9)] overflow-hidden flex flex-col pointer-events-auto';
+          if (uvPipLabel) uvPipLabel.textContent = 'Mở Rộng Giữa';
+          showToast('Đã thu nhỏ cửa sổ xem màn hình về góc phải (PiP) — bạn có thể vừa đi lại vừa xem!');
+        } else {
+          uvModal.className =
+            'fixed inset-0 z-50 flex items-center justify-center bg-black/55 backdrop-blur-xs opacity-100 pointer-events-auto transition-all duration-200';
+          uvBox.className =
+            'w-[92vw] max-w-3xl bg-surface-container-lowest/95 backdrop-blur-2xl rounded-2xl border border-primary/50 shadow-[0_24px_80px_rgba(6,182,212,0.35)] overflow-hidden flex flex-col transition-all transform scale-100';
+          if (uvPipLabel) uvPipLabel.textContent = 'Thu nhỏ góc (PiP)';
+        }
+      }
+
+      document.getElementById('btn-uv-close')?.addEventListener('click', window.closeUltraViewer);
+      document.getElementById('btn-uv-close-dot')?.addEventListener('click', window.closeUltraViewer);
+      document.getElementById('btn-uv-pip-toggle')?.addEventListener('click', toggleUvPipMode);
+      document.getElementById('btn-uv-pip-dot')?.addEventListener('click', toggleUvPipMode);
+      document.getElementById('btn-uv-max-dot')?.addEventListener('click', () => {
+        if (isUvPipMode) toggleUvPipMode();
+      });
+
+      document.getElementById('btn-uv-zoom-in')?.addEventListener('click', () => {
+        uvZoom = Math.min(1.4, +(uvZoom + 0.1).toFixed(1));
+        uvSimulatedScreen.style.transform = `scale(${uvZoom})`;
+        if (uvZoomReadout) uvZoomReadout.textContent = `${Math.round(uvZoom * 100)}%`;
+      });
+      document.getElementById('btn-uv-zoom-out')?.addEventListener('click', () => {
+        uvZoom = Math.max(0.8, +(uvZoom - 0.1).toFixed(1));
+        uvSimulatedScreen.style.transform = `scale(${uvZoom})`;
+        if (uvZoomReadout) uvZoomReadout.textContent = `${Math.round(uvZoom * 100)}%`;
+      });
+
+      document.getElementById('btn-uv-wave')?.addEventListener('click', () => {
+        showToast('👋 Đã gửi tín hiệu vẫy tay chào tới màn hình đồng nghiệp!');
+      });
+      document.getElementById('btn-uv-cheer')?.addEventListener('click', () => {
+        showToast('🔥 Đã thả tim cổ vũ tiến độ công việc!');
+      });
+      document.getElementById('uv-chat-form')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const inp = document.getElementById('uv-chat-input');
+        if (inp && inp.value.trim()) {
+          showToast(`💬 Đã gửi tin nhắn: "${inp.value.trim()}"`);
+          inp.value = '';
+        }
+      });
+
+      // --- 12. HEADER TABS, MIC/AUDIO & RADAR TOGGLES ---
+      const btnToggleRadar = document.getElementById('btn-toggle-radar');
+      const radarContainer = document.getElementById('radar-container');
+      if (btnToggleRadar && radarContainer) {
+        btnToggleRadar.addEventListener('click', () => {
+          radarContainer.classList.toggle('hidden');
+        });
+      }
+
+      const btnMicToggle = document.getElementById('btn-mic-toggle');
+      const iconMic = document.getElementById('icon-mic');
+      let micOn = true;
+      if (btnMicToggle) {
+        btnMicToggle.addEventListener('click', () => {
+          micOn = !micOn;
+          if (iconMic) iconMic.textContent = micOn ? 'mic' : 'mic_off';
+          btnMicToggle.className = micOn
+            ? 'w-7 h-7 rounded bg-surface-container hover:bg-surface-container-high text-secondary flex items-center justify-center transition-colors'
+            : 'w-7 h-7 rounded bg-error-container/50 text-error flex items-center justify-center transition-colors';
+          showToast(micOn ? '🎙️ Đã bật Microphone' : '🔇 Đã tắt Microphone');
+        });
+      }
+
+      const btnAudioToggle = document.getElementById('btn-audio-toggle');
+      const iconAudio = document.getElementById('icon-audio');
+      if (btnAudioToggle) {
+        btnAudioToggle.addEventListener('click', () => {
+          audioEnabled = !audioEnabled;
+          if (iconAudio) iconAudio.textContent = audioEnabled ? 'volume_up' : 'volume_off';
+          showToast(audioEnabled ? '🔊 Đã bật âm thanh không gian 3D' : '🔈 Đã tắt âm thanh');
+        });
+      }
+
+      // Slide-over drawer for Zones / Roster / Settings / Keybinds
+      const infoDrawer = document.getElementById('info-drawer');
+      const infoDrawerTitle = document.getElementById('info-drawer-title');
+      const infoDrawerBody = document.getElementById('info-drawer-body');
+      document.getElementById('btn-close-drawer')?.addEventListener('click', () => {
+        infoDrawer?.classList.add('hidden');
+      });
+
+      function openDrawer(title, htmlContent) {
+        if (!infoDrawer || !infoDrawerTitle || !infoDrawerBody) return;
+        infoDrawerTitle.textContent = title;
+        infoDrawerBody.innerHTML = htmlContent;
+        infoDrawer.classList.remove('hidden');
+      }
+
+      document.getElementById('tab-world')?.addEventListener('click', () => {
+        infoDrawer?.classList.add('hidden');
+        showToast('Đang ở Sàn Không Gian Mở 3D (World View)');
+      });
+
+      document.getElementById('tab-zones')?.addEventListener('click', () => {
+        openDrawer(
+          'Dịch Chuyển Nhanh Giữa Các Khu Vực',
+          `
+          <div class="space-y-2">
+            <button type="button" data-tp="0,2.5" class="tp-btn w-full text-left p-2.5 rounded-xl bg-surface-container hover:bg-surface-bright border border-outline-variant/30 flex items-center justify-between">
+              <span>🎯 Trung tâm Sàn 3D (Core Hub)</span>
+              <span class="font-shortcut-key text-primary">[0, 2]</span>
+            </button>
+            <button type="button" data-tp="-5,-2.5" class="tp-btn w-full text-left p-2.5 rounded-xl bg-surface-container hover:bg-surface-bright border border-outline-variant/30 flex items-center justify-between">
+              <span>💻 Khu Kỹ Thuật (Tây Bắc)</span>
+              <span class="font-shortcut-key text-secondary">[-5, -2]</span>
+            </button>
+            <button type="button" data-tp="5,-2.5" class="tp-btn w-full text-left p-2.5 rounded-xl bg-surface-container hover:bg-surface-bright border border-outline-variant/30 flex items-center justify-between">
+              <span>🎨 Khu Thiết Kế 3D (Đông Bắc)</span>
+              <span class="font-shortcut-key text-tertiary">[5, -2]</span>
+            </button>
+          </div>
+        `
+        );
+        infoDrawerBody.querySelectorAll('.tp-btn').forEach((b) => {
+          b.addEventListener('click', () => {
+            const [tx, tz] = b.getAttribute('data-tp').split(',').map(Number);
+            if (playerState.isSeated) standUpFromSeat();
+            targetPlayerPos.set(tx, 0, tz);
+            showToast(`Đang di chuyển nhân vật 3D tới tọa độ [${tx}, ${tz}]`);
+          });
+        });
+      });
+
+      document.getElementById('tab-roster')?.addEventListener('click', () => {
+        const peerListHtml = colleaguesSummoned
+          ? COLLEAGUE_PRESETS.map(
+              (p) => `
+            <div class="p-2.5 rounded-xl bg-surface-container border border-outline-variant/30 flex items-center justify-between">
+              <div>
+                <div class="font-semibold text-on-surface">${p.name}</div>
+                <div class="text-[10px] text-on-surface-variant">${p.role} • ${p.subtask}</div>
+              </div>
+              <button type="button" data-peer="${p.id}" class="roster-view-btn px-2 py-1 rounded bg-primary/20 text-primary font-shortcut-key text-[10px]">Xem Màn Hình</button>
+            </div>`
+            ).join('')
+          : `<div class="p-3 rounded-xl bg-surface-container text-on-surface-variant">Hiện chỉ có mình bạn trên sàn trống. Hãy bấm nút <strong>"✨ Triệu hồi 3 đồng nghiệp mẫu"</strong> ở góc phải để thêm đồng nghiệp!</div>`;
+
+        openDrawer('Danh Sách Thành Viên Trong Phòng', `<div class="space-y-2">${peerListHtml}</div>`);
+        infoDrawerBody.querySelectorAll('.roster-view-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const pid = btn.getAttribute('data-peer');
+            const peer = colleaguesMap.get(pid);
+            if (peer) {
+              window.openUltraViewer(peer.name, peer.role, peer.task, peer.uvId, peer.screenType, false);
+            }
+          });
+        });
+      });
+
+      const showKeybindsGuide = () => {
+        openDrawer(
+          'Phím Tắt Điều Khiển Nhập Vai 3D',
+          `
+          <div class="space-y-2 font-data-mono-sm text-[11px]">
+            <div class="flex justify-between p-2 rounded bg-surface-container"><span class="text-primary font-bold">[W A S D / Mũi tên]</span><span>Đi bộ nhân vật 3D</span></div>
+            <div class="flex justify-between p-2 rounded bg-surface-container"><span class="text-secondary font-bold">[Phím 1 - 7]</span><span>Chọn Bàn / Ghế / PC / Xóa</span></div>
+            <div class="flex justify-between p-2 rounded bg-surface-container"><span class="text-tertiary font-bold">[Phím B]</span><span>Bật/Tắt chế độ Đặt Đồ</span></div>
+            <div class="flex justify-between p-2 rounded bg-surface-container"><span class="text-amber-300 font-bold">[Phím R]</span><span>Xoay hướng bàn ghế 90°</span></div>
+            <div class="flex justify-between p-2 rounded bg-surface-container"><span class="text-primary font-bold">[Phím E]</span><span>Ngồi vào ghế / Đứng dậy</span></div>
+            <div class="flex justify-between p-2 rounded bg-surface-container"><span class="text-secondary font-bold">[Phím V]</span><span>Đổi góc nhìn Thứ 3 / Thứ 1</span></div>
+          </div>
+        `
+        );
+      };
+
+      document.getElementById('tab-settings')?.addEventListener('click', showKeybindsGuide);
+      document.getElementById('btn-keybinds')?.addEventListener('click', showKeybindsGuide);
+
+      // --- 13. RADAR BLIPS & WORLD BILLBOARD PROJECTION UPDATE ---
+      const radarBlipsLayer = document.getElementById('radar-blips-layer');
+      const posReadout = document.getElementById('pos-readout');
+
+      function updateRadarAndWorldLabels() {
+        // 1. Update 3D World-Space HTML Billboard coordinates for summoned colleagues
+        colleaguesMap.forEach((peer) => {
+          if (!peer.domTag) return;
+          const worldPos = peer.avatar.root.position.clone().add(new THREE.Vector3(0, 2.65, 0));
+          worldPos.project(camera);
+          // Hide if behind camera
+          if (worldPos.z > 1) {
+            peer.domTag.style.display = 'none';
+          } else {
+            const x = (worldPos.x * 0.5 + 0.5) * window.innerWidth;
+            const y = (-(worldPos.y * 0.5) + 0.5) * (window.innerHeight - 64);
+            peer.domTag.style.display = 'block';
+            peer.domTag.style.left = `${x}px`;
+            peer.domTag.style.top = `${y}px`;
+          }
+        });
+
+        // 2. Update Radar Blips
+        if (!radarBlipsLayer) return;
+        let radarHtml = '';
+        const mapCoordToRadar = (wx, wz) => {
+          const rx = Math.max(10, Math.min(90, 50 + (wx / 16) * 42));
+          const ry = Math.max(10, Math.min(90, 50 + (wz / 16) * 42));
+          return { rx, ry };
+        };
+
+        // Placed user stations on radar
+        placedStations.forEach((st) => {
+          if (st.isColleague) return;
+          const { rx, ry } = mapCoordToRadar(st.x, st.z);
+          radarHtml += `<div style="left:${rx}%;top:${ry}%" class="absolute -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-xs bg-cyan-400/80 border border-white/40" title="Bàn của ${st.ownerName}"></div>`;
+        });
+
+        // Colleague blips on radar
+        colleaguesMap.forEach((peer) => {
+          const { rx, ry } = mapCoordToRadar(peer.avatar.root.position.x, peer.avatar.root.position.z);
+          radarHtml += `
+            <div data-peer-blip="${peer.id}" style="left:${rx}%;top:${ry}%" class="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center cursor-pointer hover:scale-125 transition-transform">
+              <div class="w-2.5 h-2.5 rounded-full bg-secondary shadow-[0_0_8px_#4edea3]"></div>
+              <span class="font-shortcut-key text-[8px] text-secondary">${peer.name.split(' ').pop()}</span>
+            </div>
+          `;
+        });
+
+        // Player blip on radar
+        const pRadar = mapCoordToRadar(playerAvatar.root.position.x, playerAvatar.root.position.z);
+        radarHtml += `
+          <div style="left:${pRadar.rx}%;top:${pRadar.ry}%" class="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center pointer-events-none">
+            <div class="w-3 h-3 rounded-full bg-primary shadow-[0_0_10px_#4cd7f6] ring-2 ring-primary/40 animate-pulse"></div>
+            <span class="font-shortcut-key text-[8px] text-primary mt-0.5">BẠN</span>
+          </div>
+        `;
+        radarBlipsLayer.innerHTML = radarHtml;
+      }
+
+      // Event delegation for Radar colleague clicks
+      radarBlipsLayer?.addEventListener('click', (e) => {
+        const blip = e.target.closest('[data-peer-blip]');
+        if (!blip) return;
+        const pid = blip.getAttribute('data-peer-blip');
+        const peer = colleaguesMap.get(pid);
+        if (peer) {
+          window.openUltraViewer(peer.name, peer.role, peer.task, peer.uvId, peer.screenType, false);
+        }
+      });
+
+      // --- 14. MAIN ANIMATION LOOP (RPG MOVEMENT, LIMB KINEMATICS & CAMERA) ---
+      const clock = new THREE.Clock();
+      let frameCounter = 0;
+
+      function animate() {
+        requestAnimationFrame(animate);
+        const delta = Math.min(clock.getDelta(), 0.1);
+        const time = clock.getElapsedTime();
+        frameCounter++;
+
+        // 1. Process WASD / Arrow Key Input
+        let moveX = 0;
+        let moveZ = 0;
+        if (keysPressed['w'] || keysPressed['arrowup']) moveZ -= 1;
+        if (keysPressed['s'] || keysPressed['arrowdown']) moveZ += 1;
+        if (keysPressed['a'] || keysPressed['arrowleft']) moveX -= 1;
+        if (keysPressed['d'] || keysPressed['arrowright']) moveX += 1;
+
+        if (moveX !== 0 || moveZ !== 0) {
+          if (playerState.isSeated) standUpFromSeat();
+          const moveSpeed = 5.5 * delta;
+          const forward = new THREE.Vector3(moveX, 0, moveZ).normalize();
+          // Rotate movement vector relative to camera yaw
+          forward.applyAxisAngle(new THREE.Vector3(0, 1, 0), cameraOrbitYaw);
+          targetPlayerPos.addScaledVector(forward, moveSpeed);
+          targetPlayerPos.x = Math.max(-24, Math.min(24, targetPlayerPos.x));
+          targetPlayerPos.z = Math.max(-24, Math.min(24, targetPlayerPos.z));
+        }
+
+        // 2. Interpolate Player Position & Character Rig Animation
+        if (!playerState.isSeated) {
+          const prevPos = playerAvatar.root.position.clone();
+          playerAvatar.root.position.lerp(targetPlayerPos, 0.14);
+          const moveVec = playerAvatar.root.position.clone().sub(prevPos);
+          const speed = moveVec.length() / Math.max(delta, 0.001);
+
+          if (speed > 0.25) {
+            // Smoothly rotate character to face walking direction (since character faces -Z, use atan2(-dx, -dz))
+            const targetAngle = Math.atan2(-moveVec.x, -moveVec.z);
+            let diff = targetAngle - playerAvatar.root.rotation.y;
+            while (diff > Math.PI) diff -= Math.PI * 2;
+            while (diff < -Math.PI) diff += Math.PI * 2;
+            playerAvatar.root.rotation.y += diff * 0.18;
+
+            // Walking swing animation
+            playerAvatar.torso.position.y = 1.22 + Math.abs(Math.sin(time * 11)) * 0.04;
+            playerAvatar.headGroup.position.y = 1.92 + Math.abs(Math.sin(time * 11)) * 0.04;
+            playerAvatar.leftLegPivot.position.y = 0.82;
+            playerAvatar.rightLegPivot.position.y = 0.82;
+            playerAvatar.leftArmPivot.position.y = 1.56;
+            playerAvatar.rightArmPivot.position.y = 1.56;
+
+            playerAvatar.leftLegPivot.rotation.x = Math.sin(time * 11) * 0.6;
+            playerAvatar.rightLegPivot.rotation.x = -Math.sin(time * 11) * 0.6;
+            playerAvatar.leftArmPivot.rotation.x = -Math.sin(time * 11) * 0.5;
+            playerAvatar.rightArmPivot.rotation.x = Math.sin(time * 11) * 0.5;
+          } else {
+            // Standing Idle Breathing
+            walkRingMat.opacity = Math.max(0, walkRingMat.opacity - delta * 1.5);
+            playerAvatar.torso.position.y = 1.22 + Math.sin(time * 2.5) * 0.015;
+            playerAvatar.headGroup.position.y = 1.92 + Math.sin(time * 2.5) * 0.015;
+            playerAvatar.leftLegPivot.position.y = 0.82;
+            playerAvatar.rightLegPivot.position.y = 0.82;
+            playerAvatar.leftArmPivot.position.y = 1.56;
+            playerAvatar.rightArmPivot.position.y = 1.56;
+
+            playerAvatar.leftLegPivot.rotation.x = 0;
+            playerAvatar.rightLegPivot.rotation.x = 0;
+            playerAvatar.leftArmPivot.rotation.x = Math.sin(time * 2) * 0.05;
+            playerAvatar.rightArmPivot.rotation.x = -Math.sin(time * 2) * 0.05;
+          }
+        } else {
+          // Seated & Typing Animation
+          playerAvatar.torso.position.y = 0.92;
+          playerAvatar.headGroup.position.y = 1.56;
+          playerAvatar.leftLegPivot.position.y = 0.58;
+          playerAvatar.rightLegPivot.position.y = 0.58;
+          playerAvatar.leftLegPivot.rotation.x = -Math.PI / 2.2;
+          playerAvatar.rightLegPivot.rotation.x = -Math.PI / 2.2;
+
+          playerAvatar.leftArmPivot.position.y = 1.24;
+          playerAvatar.rightArmPivot.position.y = 1.24;
+          playerAvatar.leftArmPivot.rotation.x = -0.85 + Math.sin(time * 18) * 0.07;
+          playerAvatar.rightArmPivot.rotation.x = -0.85 - Math.sin(time * 18) * 0.07;
+        }
+
+        // Animate Colleagues Typing in 3D
+        colleaguesMap.forEach((peer, idx) => {
+          peer.avatar.leftArmPivot.rotation.x = -0.85 + Math.sin(time * 16 + idx) * 0.07;
+          peer.avatar.rightArmPivot.rotation.x = -0.85 - Math.sin(time * 16 + idx) * 0.07;
+          peer.avatar.halo.rotation.z += 0.02;
+        });
+
+        // Floating Halo & Particle Drift
+        playerAvatar.halo.rotation.z += 0.02;
+        particles.rotation.y = time * 0.02;
+
+        // 3. Camera Controller (3rd-Person RPG Orbit vs 1st-Person POV)
+        if (cameraMode === '3rd') {
+          const camX =
+            playerAvatar.root.position.x +
+            Math.sin(cameraOrbitYaw) * Math.cos(cameraOrbitPitch) * cameraZoomDist;
+          const camY =
+            playerAvatar.root.position.y +
+            1.4 +
+            Math.sin(cameraOrbitPitch) * cameraZoomDist;
+          const camZ =
+            playerAvatar.root.position.z +
+            Math.cos(cameraOrbitYaw) * Math.cos(cameraOrbitPitch) * cameraZoomDist;
+
+          camera.position.lerp(new THREE.Vector3(camX, Math.max(0.8, camY), camZ), 0.15);
+          const lookTarget = playerAvatar.root.position
+            .clone()
+            .add(new THREE.Vector3(0, playerState.isSeated ? 1.25 : 1.55, 0));
+          camera.lookAt(lookTarget);
+        } else {
+          // 1st-Person POV at character's eye position
+          const eyeY = playerState.isSeated ? 1.58 : 1.95;
+          camera.position.set(
+            playerAvatar.root.position.x,
+            playerAvatar.root.position.y + eyeY,
+            playerAvatar.root.position.z
+          );
+          const lookDir = new THREE.Vector3(
+            -Math.sin(cameraOrbitYaw) * Math.cos(cameraOrbitPitch * 0.6),
+            -Math.sin(cameraOrbitPitch * 0.6),
+            -Math.cos(cameraOrbitYaw) * Math.cos(cameraOrbitPitch * 0.6)
+          );
+          camera.lookAt(camera.position.clone().add(lookDir));
+        }
+
+        // 4. Update Telemetry & Radar every few frames
+        if (frameCounter % 4 === 0) {
+          if (posReadout) {
+            posReadout.textContent = `POS [X: ${playerAvatar.root.position.x.toFixed(1)}, Y: ${(
+              playerState.isSeated ? 1.5 : 1.9
+            ).toFixed(1)}, Z: ${playerAvatar.root.position.z.toFixed(1)}]`;
+          }
+          updateRadarAndWorldLabels();
+        }
+
+        renderer.render(scene, camera);
+      }
+
+      animate();
+
+      // Responsive Resize
+      window.addEventListener('resize', () => {
+        const w = container.clientWidth || window.innerWidth;
+        const h = container.clientHeight || window.innerHeight;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+      });
+    })();
+  </script>
+</body>
+</html>

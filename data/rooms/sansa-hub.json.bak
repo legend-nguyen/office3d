@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "savedAt": "2026-11-04T16:17:24.146Z",
+  "stations": [
+    {
+      "gx": -2.5,
+      "gz": 2.5,
+      "rotY": 0,
+      "hasDesk": true,
+      "hasChair": true,
+      "hasPC": true,
+      "hasPartition": false,
+      "hasPlant": false,
+      "ownerName": "Chưa đặt tên",
+      "ownerId": "47c939e8-f104-45cc-be9b-ab67e8bb4576"
+    }
+  ]
+}

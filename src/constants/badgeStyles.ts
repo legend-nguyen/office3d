@@ -1,0 +1,1 @@
+export const BADGE_STYLES={secondary:{border:'border-secondary/50',dot:'bg-secondary',badge:'bg-secondary/20 text-secondary',line:'from-secondary'},primary:{border:'border-primary/50',dot:'bg-primary',badge:'bg-primary/20 text-primary',line:'from-primary'},tertiary:{border:'border-tertiary/50',dot:'bg-tertiary',badge:'bg-tertiary/20 text-tertiary',line:'from-tertiary'}} as const;
