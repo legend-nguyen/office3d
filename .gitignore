@@ -1,1 +1,7 @@
-NUL
+node_modules/
+dist/
+server-dist/
+.env
+.env.*
+!.env.example
+
