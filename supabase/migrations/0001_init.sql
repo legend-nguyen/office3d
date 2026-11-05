@@ -33,6 +33,19 @@ create policy "Hồ sơ công khai để hiển thị" on public.profiles for se
 create policy "Người dùng sửa hồ sơ của mình" on public.profiles for insert to authenticated with check (auth.uid() = id);
 create policy "Người dùng cập nhật hồ sơ của mình" on public.profiles for update to authenticated using (auth.uid() = id) with check (auth.uid() = id);
 create policy "Đọc trạm trong phòng" on public.stations for select to anon, authenticated using (true);
-create policy "Thêm trạm có chủ sở hữu" on public.stations for insert to authenticated with check (auth.uid() = owner_id);
-create policy "Sửa trạm của mình" on public.stations for update to authenticated using (auth.uid() = owner_id) with check (auth.uid() = owner_id);
-create policy "Xóa trạm của mình" on public.stations for delete to authenticated using (auth.uid() = owner_id);
+create policy "Chèn trạm công khai trong phòng" on public.stations for insert to anon, authenticated with check (true);
+create policy "Cập nhật trạm công khai trong phòng" on public.stations for update to anon, authenticated using (true) with check (true);
+create policy "Xóa trạm công khai trong phòng" on public.stations for delete to anon, authenticated using (true);
+
+alter table public.stations replica identity full;
+alter publication supabase_realtime add table public.stations;
+
+create or replace function public.update_station_timestamp()
+returns trigger language plpgsql as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+create trigger stations_updated_at before update on public.stations
+for each row execute function public.update_station_timestamp();
